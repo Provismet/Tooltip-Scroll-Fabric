@@ -9,11 +9,11 @@
     "Provismet"
   ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/tooltip-scroll-fabric",
+    "sources": "https://github.com/Provismet/Tooltip-Scroll-Fabric"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/toolscroll/icon.png",
 
   "environment": "client",
