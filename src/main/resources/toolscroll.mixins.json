@@ -2,12 +2,12 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.provismet.tooltipscroll.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],
   "client": [
-    "AlterPosition",
-    "TrackScrollWheel"
+    "MouseMixin",
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,66 +1,39 @@
 package com.provismet.tooltipscroll;
 
-import java.util.List;
-
-import net.minecraft.text.Text;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.ItemStack;
 
 public class ScrollTracker {
-    // render functions are called every frame, so the offset needs to be saved somewhere
-    public static int currentXOffset = 0;
-    public static int currentYOffset = 0;
-    
-    // save the currently selected item, the scroll offset will reset if the user hovers over a different item
-    private static List<Text> currentItem;
+    public static final MinecraftClient client = MinecraftClient.getInstance();
 
-    private static final int scrollSize = 5;
-
-    // move the tooltip upwards
-    public static void scrollUp () {
-        currentYOffset -= scrollSize;
+    private static int cx, cy;
+    private static int w, h;
+    public static int getX() {
+        cx = Math.min(Math.max(cx, -6), client.currentScreen.width + w - 12);
+        return cx;
     }
-
-    // move the tooltip downwards
-    public static void scrollDown () {
-        currentYOffset += scrollSize;
+    public static int getY() {
+        cy = Math.min(Math.max(cy, 16), client.currentScreen.height - h + 12);
+        return cy;
     }
-
-    public static void scrollLeft () {
-        currentXOffset -= scrollSize;
+    public static void setDX(int dx) {
+        cx += dx;
     }
-
-    public static void scrollRight () {
-        currentXOffset += scrollSize;
+    public static void setDY(int dy) {
+        cy += dy;
     }
-
-    private static void resetScroll () {
-        currentXOffset = 0;
-        currentYOffset = 0;
+    public static void setBounds(int wi, int hi) {
+        w = wi; h = hi;
     }
-
-    // Custom equality function because a standard .equals didn't work.
-    private static boolean isEqual (List<Text> item1, List<Text> item2) {
-        if (item1 == null || item2 == null || item1.size() != item2.size()) {
-            return false;
-        }
-        
-        for (int i = 0; i < item1.size(); ++i) {
-            if (item1.get(i).getString().equals(item2.get(i).getString()) == false) {
-                return false;
-            }
-        }
-        return true;
+    public static void reset() {
+        cx = cy = 0;
+        w = h = 0;
+        cur = null;
     }
-
-    // Reset the tracker to default values.
-    public static void reset () {
-        resetScroll();
-        currentItem = null; // Using null instead of just clearing the list because not all of Minecraft's Text Lists can be cleared for some reason and that can cause an error.
-    }
-
-    public static void setItem (List<Text> item) {
-        if (isEqual(currentItem, item) == false) {
-            resetScroll();
-            currentItem = item;
-        }
+    private static ItemStack cur;
+    public static void setItem(ItemStack stack, int x, int y) {
+        if (cur != null && cur.equals(stack)) return;
+        w = h = 0;
+        cx = x; cy = y; cur = stack;
     }
 }
