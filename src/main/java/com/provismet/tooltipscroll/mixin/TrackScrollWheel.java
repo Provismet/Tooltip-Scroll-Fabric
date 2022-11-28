@@ -5,8 +5,8 @@ import net.minecraft.client.Mouse;
 import net.minecraft.client.util.InputUtil;
 
 import com.provismet.tooltipscroll.ScrollTracker;
+import com.provismet.tooltipscroll.TooltipScrollClient;
 
-import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,8 +19,10 @@ public class TrackScrollWheel {
     @Inject(method = "onMouseScroll(JDD)V", at = @At("HEAD"))
     private void trackWheel (long window, double horizontal, double vertical, CallbackInfo info) {
         long mcHandle = MinecraftClient.getInstance().getWindow().getHandle();
+        int horizontalMove = ((KeyBindAccessor)TooltipScrollClient.horizontal).getBoundKey().getCode();
+
         if (vertical > 0) {
-            if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            if (InputUtil.isKeyPressed(mcHandle, horizontalMove)) {
 				ScrollTracker.scrollRight();
 			}
             else {
@@ -28,7 +30,7 @@ public class TrackScrollWheel {
             }
         }
         else if (vertical < 0) {
-            if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            if (InputUtil.isKeyPressed(mcHandle, horizontalMove)) {
 				ScrollTracker.scrollLeft();
 			}
             else {

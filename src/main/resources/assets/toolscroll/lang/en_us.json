@@ -1,0 +1,7 @@
+{
+    "category.tooltipscroll.keys": "Tooltip Scroll",
+    "key.tooltipscroll.moveUp": "Move Tooltip Up",
+    "key.tooltipscroll.moveDown": "Move Tooltip Down",
+    "key.tooltipscroll.horizontal": "Horizontal Movement",
+    "key.tooltipscroll.reset": "Reset Tooltip"
+}

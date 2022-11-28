@@ -11,25 +11,29 @@ public class ScrollTracker {
     
     // save the currently selected item, the scroll offset will reset if the user hovers over a different item
     private static List<Text> currentItem;
+    private static int currentOrderedSize;
+
+    private static long unlockTime = System.currentTimeMillis();
+    private static final long relockAt = 100;
 
     private static final int scrollSize = 5;
 
     // move the tooltip upwards
     public static void scrollUp () {
-        currentYOffset -= scrollSize;
+        if (!isLocked()) currentYOffset -= scrollSize;
     }
 
     // move the tooltip downwards
     public static void scrollDown () {
-        currentYOffset += scrollSize;
+        if (!isLocked()) currentYOffset += scrollSize;
     }
 
     public static void scrollLeft () {
-        currentXOffset -= scrollSize;
+        if (!isLocked()) currentXOffset -= scrollSize;
     }
 
     public static void scrollRight () {
-        currentXOffset += scrollSize;
+        if (!isLocked()) currentXOffset += scrollSize;
     }
 
     private static void resetScroll () {
@@ -51,6 +55,11 @@ public class ScrollTracker {
         return true;
     }
 
+    private static boolean isLocked () {
+        long difference = System.currentTimeMillis() - unlockTime;
+        return difference > relockAt;
+    }
+
     // Reset the tracker to default values.
     public static void reset () {
         resetScroll();
@@ -62,5 +71,18 @@ public class ScrollTracker {
             resetScroll();
             currentItem = item;
         }
+    }
+
+    // Ordered items do not have any convenient means of being compared. This method will instead compare lengths.
+    // Should not cause too many issues as this should only be a relevant comparison method when in contexts where renderOrderedTooltip is being called directly (menus).
+    public static void setOrderedItemSize (int itemSize) {
+        if (itemSize != currentOrderedSize) {
+            currentOrderedSize = itemSize;
+            resetScroll();
+        }
+    }
+
+    public static void unlock () {
+        unlockTime = System.currentTimeMillis();
     }
 }
