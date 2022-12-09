@@ -34,7 +34,7 @@ public class TooltipScrollClient implements ClientModInitializer{
     public static KeyBinding horizontal = KeyBindingHelper.registerKeyBinding(new KeyBinding(
         "key.tooltipscroll.horizontal",
         InputUtil.Type.KEYSYM,
-        GLFW.GLFW_KEY_LEFT_SHIFT,
+        GLFW.GLFW_KEY_UNKNOWN,
         "category.tooltipscroll.keys"
     ));
 
