@@ -48,7 +48,7 @@ public class ScrollTracker {
         }
         
         for (int i = 0; i < item1.size(); ++i) {
-            if (item1.get(i).getString().equals(item2.get(i).getString()) == false) {
+            if (!item1.get(i).getString().equals(item2.get(i).getString())) {
                 return false;
             }
         }
@@ -67,7 +67,7 @@ public class ScrollTracker {
     }
 
     public static void setItem (List<Text> item) {
-        if (isEqual(currentItem, item) == false) {
+        if (!isEqual(currentItem, item)) {
             resetScroll();
             currentItem = item;
         }
