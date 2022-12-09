@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "toolscroll",
+  "id": "tooltipscroll",
   "version": "${version}",
 
   "name": "Tooltip Scroll",
@@ -10,7 +10,8 @@
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/tooltip-scroll-fabric",
-    "sources": "https://github.com/Provismet/Tooltip-Scroll-Fabric"
+    "sources": "https://github.com/Provismet/Tooltip-Scroll-Fabric",
+    "issues": "https://github.com/Provismet/Tooltip-Scroll-Fabric/issues"
   },
 
   "license": "MIT",
@@ -20,6 +21,9 @@
   "entrypoints": {
     "client": [
       "com.provismet.tooltipscroll.TooltipScrollClient"
+    ],
+    "modmenu": [
+      "com.provismet.tooltipscroll.config.TooltipScrollModMenu"
     ]
   },
   "mixins": [

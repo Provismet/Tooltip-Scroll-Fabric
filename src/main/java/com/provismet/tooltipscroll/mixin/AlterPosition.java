@@ -12,9 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.provismet.tooltipscroll.Options;
 import com.provismet.tooltipscroll.ScrollTracker;
 import com.provismet.tooltipscroll.TooltipScrollClient;
 
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -61,6 +63,22 @@ public class AlterPosition {
 		int down = ((KeyBindAccessor)TooltipScrollClient.moveDown).getBoundKey().getCode();
 		int horizontal = ((KeyBindAccessor)TooltipScrollClient.horizontal).getBoundKey().getCode();
 		int reset = ((KeyBindAccessor)TooltipScrollClient.reset).getBoundKey().getCode();
+
+		if (Options.useWASD) {
+			if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_W)) {
+				ScrollTracker.scrollUp();
+			}
+			else if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_S)) {
+				ScrollTracker.scrollDown();
+			}
+
+			if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_A)) {
+				ScrollTracker.scrollLeft();
+			}
+			else if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_D)) {
+				ScrollTracker.scrollRight();
+			}
+		}
 
 		// Check for -1 codes first.
 		// They don't cause Exceptions, but they do create a messy block of errors on the render thread when logging.

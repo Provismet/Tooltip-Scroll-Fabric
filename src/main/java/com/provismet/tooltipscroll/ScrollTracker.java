@@ -83,6 +83,9 @@ public class ScrollTracker {
     }
 
     public static void unlock () {
+        if (Options.resetOnUnlock && isLocked()) {
+            resetScroll();
+        }
         unlockTime = System.currentTimeMillis();
     }
 }

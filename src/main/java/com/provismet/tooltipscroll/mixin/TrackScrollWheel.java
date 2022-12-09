@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.util.InputUtil;
 
+import com.provismet.tooltipscroll.Options;
 import com.provismet.tooltipscroll.ScrollTracker;
 import com.provismet.tooltipscroll.TooltipScrollClient;
 
@@ -18,6 +19,8 @@ public class TrackScrollWheel {
     // Has no impact from a blackbox perspective though since the tooltip position will be reset when selecting an item.
     @Inject(method = "onMouseScroll(JDD)V", at = @At("HEAD"))
     private void trackWheel (long window, double horizontal, double vertical, CallbackInfo info) {
+        if (!Options.canScroll) return;
+
         long mcHandle = MinecraftClient.getInstance().getWindow().getHandle();
         int horizontalMove = ((KeyBindAccessor)TooltipScrollClient.horizontal).getBoundKey().getCode();
 
