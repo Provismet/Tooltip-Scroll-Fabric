@@ -8,7 +8,8 @@
   "client": [
     "AlterPosition",
     "TrackScrollWheel",
-    "KeyBindAccessor"
+    "KeyBindAccessor",
+    "OrderedTextTooltipComponentAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
