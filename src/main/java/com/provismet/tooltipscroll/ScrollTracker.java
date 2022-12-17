@@ -2,7 +2,10 @@ package com.provismet.tooltipscroll;
 
 import java.util.List;
 
-import net.minecraft.text.Text;
+import com.provismet.tooltipscroll.mixin.OrderedTextTooltipComponentAccessor;
+
+import net.minecraft.client.gui.tooltip.OrderedTextTooltipComponent;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
 
 public class ScrollTracker {
     // render functions are called every frame, so the offset needs to be saved somewhere
@@ -10,8 +13,7 @@ public class ScrollTracker {
     public static int currentYOffset = 0;
     
     // save the currently selected item, the scroll offset will reset if the user hovers over a different item
-    private static List<Text> currentItem;
-    private static int currentOrderedSize;
+    private static List<TooltipComponent> currentItem;
 
     private static long unlockTime = System.currentTimeMillis();
     private static final long relockAt = 100;
@@ -41,16 +43,19 @@ public class ScrollTracker {
         currentYOffset = 0;
     }
 
-    // Custom equality function because a standard .equals didn't work.
-    private static boolean isEqual (List<Text> item1, List<Text> item2) {
-        if (item1 == null || item2 == null || item1.size() != item2.size()) {
-            return false;
-        }
+    private static boolean isEqual (List<TooltipComponent> item1, List<TooltipComponent> item2) {
+        if (item1 == null || item2 == null || item1.size() != item2.size()) return false;
         
         for (int i = 0; i < item1.size(); ++i) {
-            if (item1.get(i).getString().equals(item2.get(i).getString()) == false) {
-                return false;
-            }
+            if (item1.get(i) instanceof OrderedTextTooltipComponent && !(item2.get(i) instanceof OrderedTextTooltipComponent)) return false;
+            if (item2.get(i) instanceof OrderedTextTooltipComponent && !(item1.get(i) instanceof OrderedTextTooltipComponent)) return false;
+            
+            OrderedTextTooltipComponentAccessor accessible1 = (OrderedTextTooltipComponentAccessor)((OrderedTextTooltipComponent)item1.get(i));
+            OrderedTextTooltipComponentAccessor accessible2 = (OrderedTextTooltipComponentAccessor)((OrderedTextTooltipComponent)item2.get(i));
+
+            String text1 = OrderedTextReader.read(accessible1.getText());
+            String text2 = OrderedTextReader.read(accessible2.getText());
+            if (!text1.equals(text2)) return false;
         }
         return true;
     }
@@ -66,19 +71,10 @@ public class ScrollTracker {
         currentItem = null; // Using null instead of just clearing the list because not all of Minecraft's Text Lists can be cleared for some reason and that can cause an error.
     }
 
-    public static void setItem (List<Text> item) {
-        if (isEqual(currentItem, item) == false) {
+    public static void setItem (List<TooltipComponent> item) {
+        if (!isEqual(currentItem, item)) {
             resetScroll();
             currentItem = item;
-        }
-    }
-
-    // Ordered items do not have any convenient means of being compared. This method will instead compare lengths.
-    // Should not cause too many issues as this should only be a relevant comparison method when in contexts where renderOrderedTooltip is being called directly (menus).
-    public static void setOrderedItemSize (int itemSize) {
-        if (itemSize != currentOrderedSize) {
-            currentOrderedSize = itemSize;
-            resetScroll();
         }
     }
 

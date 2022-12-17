@@ -3,14 +3,10 @@ package com.provismet.tooltipscroll.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.item.TooltipData;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import com.provismet.tooltipscroll.Options;
 import com.provismet.tooltipscroll.ScrollTracker;
@@ -29,26 +25,6 @@ public class AlterPosition {
 	@Inject (method = "close()V", at = @At("HEAD"))
 	public void resetTrackerOnScreenClose (CallbackInfo info) {
 		ScrollTracker.reset();
-	}
-
-	// There are a few different functions for renderTooltip, I'll just catch them all and format the data as List<Text> regardless.
-
-	// There is also an overload that uses ItemStack as a parameter, but it called the method below anyway, so it's more efficient to skip to this function instead.
-	@Inject (method = "renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;Ljava/util/Optional;II)V", at = @At("HEAD"))
-	public void updateTracker (MatrixStack matrices, List<Text> lines, Optional<TooltipData> data2, int x, int y, CallbackInfo info) {
-		ScrollTracker.setItem(lines);
-	}
-
-	// The following two methods appear to be deprecated, but as they are still listed in the source code they are kept anyway.
-	@Inject (method = "renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V", at = @At("HEAD"))
-	public void updateTracker (MatrixStack matrices, List<Text> lines, int x, int y, CallbackInfo info) {
-		ScrollTracker.setItem(lines);
-	}
-
-	@Inject (method = "renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;II)V", at = @At("HEAD"))
-	public void updateTracker (MatrixStack matrices, Text text, int x, int y, CallbackInfo info) {
-		List<Text> asList = Arrays.asList(text);
-		ScrollTracker.setItem(asList);
 	}
 
 	// This inject allows the page-up and page-down buttons to perform scrolling.
@@ -102,7 +78,7 @@ public class AlterPosition {
 			ScrollTracker.reset();
 		}
 
-		ScrollTracker.setOrderedItemSize(components.size());
+		ScrollTracker.setItem(components);
 	}
 
 	// Using an invoke inject here because the tooltip coordinates get checked for out of bounds positions. I want the scroll offset to only apply after the bound check.

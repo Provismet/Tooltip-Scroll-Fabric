@@ -1,8 +1,16 @@
 # Tooltip Scroll
-Allows item tooltips to be moved via the scrollwheel.
+Allows all tooltips to be moved anywhere on or off the screen.  
+This mod is only for Fabric and requires Fabric API.
 
 ## Instructions
 Place the .jar file into your fabric mods folder.
 
-Use the scrollwheel or the Page-Up and Page-Down keys to move tooltips up and down while hovering over an item.
-Holding left-shift makes the tooltip move left and right instead.
+Using the scrollwheel or a keybind (PageUp and PageDown by default) tooltips can be moved anywhere on or off the screen.  
+Additional config options (such as moving tooltips with WASD) require Mod Menu and Cloth Config API.
+
+Alternative download pages:  
+Modrinth  
+https://modrinth.com/mod/tooltip-scroll
+
+CurseForge  
+https://www.curseforge.com/minecraft/mc-mods/tooltip-scroll-fabric
