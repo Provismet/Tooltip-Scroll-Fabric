@@ -3,6 +3,7 @@ package com.provismet.tooltipscroll.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.client.gui.tooltip.TooltipPositioner;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -29,8 +30,8 @@ public class AlterPosition {
 
 	// This inject allows the page-up and page-down buttons to perform scrolling.
 	// It's just a QOL feature because some menus are scrollable and would be moved by the scrollwheel.
-	@Inject (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V", at = @At("HEAD"))
-	public void applyTracker (MatrixStack matrices, List<TooltipComponent> components, int x, int y, CallbackInfo info) {
+	@Inject (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", at = @At("HEAD"))
+	public void applyTracker (MatrixStack matrices, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo info) {
 		ScrollTracker.unlock();
 		long mcHandle = MinecraftClient.getInstance().getWindow().getHandle();
 
@@ -85,13 +86,13 @@ public class AlterPosition {
 	// Targeting a method invoke because it was just conveniently placed after the bound check.
 
 	// l is the variable that determines y-axis position of a tooltip.
-	@ModifyVariable (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V", ordinal = 5, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE))
+	@ModifyVariable (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", ordinal = 5, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE))
 	private int modifyYAxis (int y) {
 		return y + ScrollTracker.currentYOffset;
 	}
 
 	// k is the variable that determines x-axis position of a tooltip.
-	@ModifyVariable (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V", ordinal = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE))
+	@ModifyVariable (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", ordinal = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE))
 	private int modifyXAxis (int x) {
 		return x + ScrollTracker.currentXOffset;
 	}
