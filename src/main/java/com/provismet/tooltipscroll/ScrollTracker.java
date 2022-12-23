@@ -49,6 +49,7 @@ public class ScrollTracker {
         for (int i = 0; i < item1.size(); ++i) {
             if (item1.get(i) instanceof OrderedTextTooltipComponent && !(item2.get(i) instanceof OrderedTextTooltipComponent)) return false;
             if (item2.get(i) instanceof OrderedTextTooltipComponent && !(item1.get(i) instanceof OrderedTextTooltipComponent)) return false;
+            if (!(item1.get(i) instanceof OrderedTextTooltipComponent) && !(item2.get(i) instanceof OrderedTextTooltipComponent)) continue; // Can't compare non-text.
             
             OrderedTextTooltipComponentAccessor accessible1 = (OrderedTextTooltipComponentAccessor)((OrderedTextTooltipComponent)item1.get(i));
             OrderedTextTooltipComponentAccessor accessible2 = (OrderedTextTooltipComponentAccessor)((OrderedTextTooltipComponent)item2.get(i));
