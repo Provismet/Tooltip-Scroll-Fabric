@@ -25,7 +25,7 @@ public class TrackScrollWheel {
         int horizontalMove = ((KeyBindAccessor)TooltipScrollClient.horizontal).getBoundKey().getCode();
 
         if (vertical > 0) {
-            if (InputUtil.isKeyPressed(mcHandle, horizontalMove)) {
+            if (horizontalMove != -1 && InputUtil.isKeyPressed(mcHandle, horizontalMove)) {
 				ScrollTracker.scrollRight();
 			}
             else {
@@ -33,7 +33,7 @@ public class TrackScrollWheel {
             }
         }
         else if (vertical < 0) {
-            if (InputUtil.isKeyPressed(mcHandle, horizontalMove)) {
+            if (horizontalMove != -1 && InputUtil.isKeyPressed(mcHandle, horizontalMove)) {
 				ScrollTracker.scrollLeft();
 			}
             else {
