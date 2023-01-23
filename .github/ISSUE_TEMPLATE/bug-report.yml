@@ -19,6 +19,7 @@ body:
     id: mc-ver
     attributes:
       label: Minecraft Version
+      multiple: true
       options:
         - 1.19.3 (Latest)
         - 1.19.2
