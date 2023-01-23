@@ -1,0 +1,46 @@
+name: Report Bugs
+description: Report bugs or errors with the mod.
+labels: "bugs"
+body:
+  - type: dropdown
+    id: bug-type
+    attributes:
+      label: Type of Error
+      options:
+        - Crash
+        - Incorrect Behaviour
+        - Other
+  - type: textarea
+    id: describe-bug
+    attributes:
+      label: Description
+      placeholder: Describe the error here...
+  - type: dropdown
+    id: mc-ver
+    attributes:
+      label: Minecraft Version
+      options:
+        - 1.19.3 (Latest)
+        - 1.19.2
+        - 1.19.1
+        - 1.19
+        - 1.18.2
+  - type: dropdown
+    id: modloader
+    attributes:
+      label: Mod Loader
+      multiple: true
+      options:
+        - Fabric
+        - Quilt
+        - Other?
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      placeholder: Write steps out here, e.g. in bullet points...
+  - type: textarea
+    id: crash-log
+    attributes:
+      label: Crash Log
+      placeholder: Upload or paste the crash report here (if applicable)...
