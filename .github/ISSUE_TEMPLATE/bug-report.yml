@@ -1,6 +1,6 @@
 name: Report Bugs
 description: Report bugs or errors with the mod.
-labels: "bugs"
+labels: "bug"
 body:
   - type: dropdown
     id: bug-type
@@ -10,11 +10,20 @@ body:
         - Crash
         - Incorrect Behaviour
         - Other
+    validations:
+      required: true
   - type: textarea
     id: describe-bug
     attributes:
       label: Description
       placeholder: Describe the error here...
+    validations:
+      required: true
+  - type: input
+    id: mod-ver
+    attributes:
+      label: Mod Version
+      placeholder: Affected mod version or versions. Do NOT simply write "latest".
   - type: dropdown
     id: mc-ver
     attributes:
@@ -26,6 +35,8 @@ body:
         - 1.19.1
         - 1.19
         - 1.18.2
+    validations:
+      required: true
   - type: dropdown
     id: modloader
     attributes:
@@ -35,12 +46,16 @@ body:
         - Fabric
         - Quilt
         - Other (specify in desc)
+    validations:
+      required: true
   - type: textarea
     id: reproduce
     attributes:
       label: Steps to Reproduce
       placeholder: Write steps out here, e.g. in bullet points...
       render: bash
+    validations:
+      required: true
   - type: textarea
     id: crash-log
     attributes:
