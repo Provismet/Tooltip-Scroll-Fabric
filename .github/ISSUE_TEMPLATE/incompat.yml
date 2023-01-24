@@ -1,6 +1,6 @@
 name: Report Incompatibility
 description: Report incompatibilities between this mod and other mods / mod loaders.
-labels: ["bugs", "incompatibility"]
+labels: ["bug", "incompatibility"]
 body:
   - type: dropdown
     id: bug-type
@@ -30,7 +30,7 @@ body:
     id: mod-ver
     attributes:
       label: Mod Version
-      placeholder: Affected mod version or verions. Do NOT simply write "latest".
+      placeholder: Affected mod version or versions. Do NOT simply write "latest".
     validations:
       required: true
   - type: dropdown
@@ -44,6 +44,8 @@ body:
         - 1.19.1
         - 1.19
         - 1.18.2
+    validations:
+      required: true
   - type: dropdown
     id: modloader
     attributes:
@@ -53,6 +55,8 @@ body:
         - Fabric
         - Quilt
         - Other (specify in desc)
+    validations:
+      required: true
   - type: textarea
     id: reproduce
     attributes:
