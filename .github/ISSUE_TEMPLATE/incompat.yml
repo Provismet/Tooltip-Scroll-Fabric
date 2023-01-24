@@ -1,0 +1,69 @@
+name: Report Incompatibility
+description: Report incompatibilities between this mod and other mods / mod loaders.
+labels: ["bugs", "incompatibility"]
+body:
+  - type: dropdown
+    id: bug-type
+    attributes:
+      label: Type of Error
+      options:
+        - Crash
+        - Incorrect Behaviour
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: mod-list
+    attributes:
+      label: Mod List
+      placeholder: Bullet point list the mods involved in the incompatibility or, if unsure, in your mods folder.
+    validations:
+      required: true
+  - type: textarea
+    id: describe-bug
+    attributes:
+      label: Description
+      placeholder: Describe the error here...
+    validations:
+      required: true
+  - type: input
+    id: mod-ver
+    attributes:
+      label: Mod Version
+      placeholder: Affected mod version or verions. Do NOT simply write "latest".
+    validations:
+      required: true
+  - type: dropdown
+    id: mc-ver
+    attributes:
+      label: Minecraft Version
+      multiple: true
+      options:
+        - 1.19.3 (Latest)
+        - 1.19.2
+        - 1.19.1
+        - 1.19
+        - 1.18.2
+  - type: dropdown
+    id: modloader
+    attributes:
+      label: Mod Loader
+      multiple: true
+      options:
+        - Fabric
+        - Quilt
+        - Other (specify in desc)
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      placeholder: Write steps out here, e.g. in bullet points...
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: crash-log
+    attributes:
+      label: Crash Log
+      placeholder: Upload or paste the crash report here (if applicable)...
+      render: bash
