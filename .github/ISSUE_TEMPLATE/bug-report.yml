@@ -10,8 +10,6 @@ body:
         - Crash
         - Incorrect Behaviour
         - Other
-    validation:
-      required: true
   - type: textarea
     id: describe-bug
     attributes:
