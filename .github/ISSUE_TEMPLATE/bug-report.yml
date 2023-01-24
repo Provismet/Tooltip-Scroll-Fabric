@@ -10,6 +10,8 @@ body:
         - Crash
         - Incorrect Behaviour
         - Other
+    validation:
+      required: true
   - type: textarea
     id: describe-bug
     attributes:
@@ -34,7 +36,7 @@ body:
       options:
         - Fabric
         - Quilt
-        - Other?
+        - Other (specify in desc)
   - type: textarea
     id: reproduce
     attributes:
