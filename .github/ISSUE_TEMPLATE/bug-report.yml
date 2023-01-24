@@ -24,6 +24,8 @@ body:
     attributes:
       label: Mod Version
       placeholder: Affected mod version or versions. Do NOT simply write "latest".
+    validations:
+      required: true
   - type: dropdown
     id: mc-ver
     attributes:
