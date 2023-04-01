@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Tooltip Scroll",
-  "description": "Allows the tooltip GUI to be moved with the scrollwheel or Page Up/Down keys.",
+  "description": "Allows the tooltip GUI to be moved with the scrollwheel or configurable keys.",
   "authors": [
     "Provismet"
   ],
@@ -32,8 +32,8 @@
 
   "depends": {
     "fabricloader": ">=0.14.6",
-    "fabric": "*",
-    "minecraft": "1.19.3",
+    "fabric-api": "*",
+    "minecraft": "1.19.4",
     "java": ">=17"
   }
 }

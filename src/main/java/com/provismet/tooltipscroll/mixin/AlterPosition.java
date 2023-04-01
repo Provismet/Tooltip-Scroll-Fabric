@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
-public class AlterPosition {
+public abstract class AlterPosition {
 	// Reset the tracker whenever a GUI window closes.
 	@Inject (method = "close()V", at = @At("HEAD"))
 	public void resetTrackerOnScreenClose (CallbackInfo info) {
@@ -60,7 +60,7 @@ public class AlterPosition {
 		// Check for -1 codes first.
 		// They don't cause Exceptions, but they do create a messy block of errors on the render thread when logging.
 		if (up != -1 && InputUtil.isKeyPressed(mcHandle, up)) {
-			if (horizontal != -1 && InputUtil.isKeyPressed(mcHandle, horizontal)) {
+			if ((horizontal != -1 && InputUtil.isKeyPressed(mcHandle, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
 				ScrollTracker.scrollLeft();
 			}
 			else {
@@ -68,7 +68,7 @@ public class AlterPosition {
 			}
 		}
 		else if (down != -1 && InputUtil.isKeyPressed(mcHandle, down)) {
-			if (horizontal != -1 && InputUtil.isKeyPressed(mcHandle, horizontal)) {
+			if ((horizontal != -1 && InputUtil.isKeyPressed(mcHandle, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
 				ScrollTracker.scrollRight();
 			}
 			else {
@@ -86,13 +86,13 @@ public class AlterPosition {
 	// Targeting a method invoke because it was just conveniently placed after the bound check.
 
 	// l is the variable that determines y-axis position of a tooltip.
-	@ModifyVariable (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", ordinal = 5, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE))
+	@ModifyVariable (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", ordinal = 7, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE))
 	private int modifyYAxis (int y) {
 		return y + ScrollTracker.currentYOffset;
 	}
 
 	// k is the variable that determines x-axis position of a tooltip.
-	@ModifyVariable (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", ordinal = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE))
+	@ModifyVariable (method = "renderTooltipFromComponents(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", ordinal = 6, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE))
 	private int modifyXAxis (int x) {
 		return x + ScrollTracker.currentXOffset;
 	}

@@ -8,6 +8,7 @@ import com.provismet.tooltipscroll.Options;
 import com.provismet.tooltipscroll.ScrollTracker;
 import com.provismet.tooltipscroll.TooltipScrollClient;
 
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,7 +26,7 @@ public class TrackScrollWheel {
         int horizontalMove = ((KeyBindAccessor)TooltipScrollClient.horizontal).getBoundKey().getCode();
 
         if (vertical > 0) {
-            if (horizontalMove != -1 && InputUtil.isKeyPressed(mcHandle, horizontalMove)) {
+            if ((horizontalMove != -1 && InputUtil.isKeyPressed(mcHandle, horizontalMove)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
 				ScrollTracker.scrollRight();
 			}
             else {
@@ -33,7 +34,7 @@ public class TrackScrollWheel {
             }
         }
         else if (vertical < 0) {
-            if (horizontalMove != -1 && InputUtil.isKeyPressed(mcHandle, horizontalMove)) {
+            if ((horizontalMove != -1 && InputUtil.isKeyPressed(mcHandle, horizontalMove)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
 				ScrollTracker.scrollLeft();
 			}
             else {

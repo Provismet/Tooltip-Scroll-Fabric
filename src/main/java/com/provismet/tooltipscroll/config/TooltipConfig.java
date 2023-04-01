@@ -1,7 +1,5 @@
 package com.provismet.tooltipscroll.config;
 
-import java.io.FileWriter;
-
 import com.provismet.tooltipscroll.Options;
 
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -36,15 +34,14 @@ public class TooltipConfig {
             .setSaveConsumer(newValue -> Options.resetOnUnlock = newValue)
             .build());
 
+        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.uselshift"), Options.useLShift)
+            .setDefaultValue(true)
+            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.uselshift"))
+            .setSaveConsumer(newValue -> Options.useLShift = newValue)
+            .build());
+
         builder.setSavingRunnable(() ->{
-            try {
-                FileWriter writer = new FileWriter("config/tooltipscroll.json");
-                String simpleJSON = String.format("{\"canScroll\": %b, \"useWASD\": %b, \"resetOnUnlock\": %b}", Options.canScroll, Options.useWASD, Options.resetOnUnlock);
-                writer.write(simpleJSON);
-                writer.close();
-            } catch (Exception e) {
-                // Do nothing.
-            }
+            Options.saveJSON();
         });
 
         return builder.build();

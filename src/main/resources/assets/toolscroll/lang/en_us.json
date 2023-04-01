@@ -1,12 +1,19 @@
 {
     "category.tooltipscroll.keys": "Tooltip Scroll",
+
     "title.tooltipscroll.config": "Tooltip Scroll",
+
     "category.tooltipscroll.general": "General",
+
     "entry.tooltipscroll.canScroll": "Enable ScrollWheel",
     "entry.tooltipscroll.usewasd": "Enable WASD",
     "entry.tooltipscroll.resetonunlock": "Reset Position When Not Hovered",
+    "entry.tooltipscroll.uselshift": "Use Left-Shift",
+
     "entrytooltip.tooltipscroll.usewasd": "Allows the WASD keys to move a tooltip.",
     "entrytooltip.tooltipscroll.resetonunlock": "Resets the position of a tooltip when it is not visible.",
+    "entrytooltip.tooltipscroll.uselshift": "Use left-shift for horizontal scrolling (unaffected by keybind).",
+
     "key.tooltipscroll.moveUp": "Move Tooltip Up",
     "key.tooltipscroll.moveDown": "Move Tooltip Down",
     "key.tooltipscroll.horizontal": "Horizontal Movement",

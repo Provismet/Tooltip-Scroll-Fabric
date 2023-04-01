@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 import org.lwjgl.glfw.GLFW;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.stream.JsonReader;
 
@@ -14,6 +16,13 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
 public class TooltipScrollClient implements ClientModInitializer{
+    public static final String CAN_SCROLL = "canScroll";
+    public static final String USE_WASD = "useWASD";
+    public static final String RESET_ON_UNLOCK = "resetOnUnlock";
+    public static final String USE_LEFT_SHIFT = "useLShift";
+
+    public static final Logger LOGGER = LoggerFactory.getLogger("Tooltip Scroll");
+
     public static KeyBinding moveUp = KeyBindingHelper.registerKeyBinding(new KeyBinding(
         "key.tooltipscroll.moveUp",
         InputUtil.Type.KEYSYM,
@@ -55,12 +64,29 @@ public class TooltipScrollClient implements ClientModInitializer{
             JsonReader parser = new JsonReader(reader);
 
             parser.beginObject();
-            parser.nextName();
-            Options.canScroll = parser.nextBoolean();
-            parser.nextName();
-            Options.useWASD = parser.nextBoolean();
-            parser.nextName();
-            Options.resetOnUnlock = parser.nextBoolean();
+            while (parser.hasNext()) {
+                final String label = parser.nextName();
+                switch (label) {
+                    case CAN_SCROLL:
+                        Options.canScroll = parser.nextBoolean();
+                        break;
+                    
+                    case USE_WASD:
+                        Options.useWASD = parser.nextBoolean();
+                        break;
+                    
+                    case RESET_ON_UNLOCK:
+                        Options.resetOnUnlock = parser.nextBoolean();
+                        break;
+
+                    case USE_LEFT_SHIFT:
+                        Options.useLShift = parser.nextBoolean();
+                        break;
+                
+                    default:
+                        break;
+                }
+            }
             parser.close();
         } catch (FileNotFoundException e) {
             try {
