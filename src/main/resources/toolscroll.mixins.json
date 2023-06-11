@@ -9,7 +9,8 @@
     "AlterPosition",
     "TrackScrollWheel",
     "KeyBindAccessor",
-    "OrderedTextTooltipComponentAccessor"
+    "OrderedTextTooltipComponentAccessor",
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
