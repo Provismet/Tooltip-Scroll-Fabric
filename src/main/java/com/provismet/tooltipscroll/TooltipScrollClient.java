@@ -1,26 +1,15 @@
 package com.provismet.tooltipscroll;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.stream.JsonReader;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-public class TooltipScrollClient implements ClientModInitializer{
-    public static final String CAN_SCROLL = "canScroll";
-    public static final String USE_WASD = "useWASD";
-    public static final String RESET_ON_UNLOCK = "resetOnUnlock";
-    public static final String USE_LEFT_SHIFT = "useLShift";
-
+public class TooltipScrollClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("Tooltip Scroll");
 
     public static KeyBinding moveUp = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -59,46 +48,6 @@ public class TooltipScrollClient implements ClientModInitializer{
 
     @Override
     public void onInitializeClient () {
-        try {
-            FileReader reader = new FileReader("config/tooltipscroll.json");
-            JsonReader parser = new JsonReader(reader);
-
-            parser.beginObject();
-            while (parser.hasNext()) {
-                final String label = parser.nextName();
-                switch (label) {
-                    case CAN_SCROLL:
-                        Options.canScroll = parser.nextBoolean();
-                        break;
-                    
-                    case USE_WASD:
-                        Options.useWASD = parser.nextBoolean();
-                        break;
-                    
-                    case RESET_ON_UNLOCK:
-                        Options.resetOnUnlock = parser.nextBoolean();
-                        break;
-
-                    case USE_LEFT_SHIFT:
-                        Options.useLShift = parser.nextBoolean();
-                        break;
-                
-                    default:
-                        break;
-                }
-            }
-            parser.close();
-        } catch (FileNotFoundException e) {
-            try {
-                FileWriter writer = new FileWriter("config/tooltipscroll.json");
-                String simpleJSON = "{\"canScroll\": true, \"useWASD\": false, \"resetOnUnlock\": false}";
-                writer.write(simpleJSON);
-                writer.close();
-            } catch (Exception e2) {
-                // Do nothing.
-            }
-        } catch (Exception e) {
-            // Do nothing.
-        }
+        Options.readJSON();
     }
 }

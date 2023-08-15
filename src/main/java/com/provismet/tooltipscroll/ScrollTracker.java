@@ -26,13 +26,14 @@ public class ScrollTracker {
 
     private static long unlockTime = System.currentTimeMillis();
     private static final long RELOCK_AT = 100;
-    private static final int SCROLL_SIZE = 10;
-    private static final int SCROLL_SIZE_KEYBOARD = 5;
-    private static final double SMOOTH_MODIFIER = 0.25;
+    
+    public static int scrollSize = 10;
+    public static int scrollSizeKeyboard = 5;
+    public static double smoothnessModifier = 0.25;
 
     public static void update () {
-        currentXOffset += (trueXOffset - currentXOffset) * SMOOTH_MODIFIER;
-        currentYOffset += (trueYOffset - currentYOffset) * SMOOTH_MODIFIER;
+        currentXOffset += (trueXOffset - currentXOffset) * smoothnessModifier;
+        currentYOffset += (trueYOffset - currentYOffset) * smoothnessModifier;
 
         long mcHandle = MinecraftClient.getInstance().getWindow().getHandle();
 
@@ -44,17 +45,17 @@ public class ScrollTracker {
 
 		if (Options.useWASD) {
 			if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_W)) {
-				ScrollTracker.scrollUp(SCROLL_SIZE_KEYBOARD);
+				ScrollTracker.scrollUp(scrollSizeKeyboard);
 			}
 			else if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_S)) {
-				ScrollTracker.scrollDown(SCROLL_SIZE_KEYBOARD);
+				ScrollTracker.scrollDown(scrollSizeKeyboard);
 			}
 
 			if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_A)) {
-				ScrollTracker.scrollLeft(SCROLL_SIZE_KEYBOARD);
+				ScrollTracker.scrollLeft(scrollSizeKeyboard);
 			}
 			else if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_D)) {
-				ScrollTracker.scrollRight(SCROLL_SIZE_KEYBOARD);
+				ScrollTracker.scrollRight(scrollSizeKeyboard);
 			}
 		}
 
@@ -62,18 +63,18 @@ public class ScrollTracker {
 		// They don't cause Exceptions, but they do create a messy block of errors on the render thread when logging.
 		if (up != -1 && InputUtil.isKeyPressed(mcHandle, up)) {
 			if ((horizontal != -1 && InputUtil.isKeyPressed(mcHandle, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
-				ScrollTracker.scrollLeft(SCROLL_SIZE_KEYBOARD);
+				ScrollTracker.scrollLeft(scrollSizeKeyboard);
 			}
 			else {
-				ScrollTracker.scrollUp(SCROLL_SIZE_KEYBOARD);
+				ScrollTracker.scrollUp(scrollSizeKeyboard);
 			}
 		}
 		else if (down != -1 && InputUtil.isKeyPressed(mcHandle, down)) {
 			if ((horizontal != -1 && InputUtil.isKeyPressed(mcHandle, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
-				ScrollTracker.scrollRight(SCROLL_SIZE_KEYBOARD);
+				ScrollTracker.scrollRight(scrollSizeKeyboard);
 			}
 			else {
-				ScrollTracker.scrollDown(SCROLL_SIZE_KEYBOARD);
+				ScrollTracker.scrollDown(scrollSizeKeyboard);
 			}
 		}
 		else if (reset != -1 && InputUtil.isKeyPressed(mcHandle, reset)) {
@@ -90,7 +91,7 @@ public class ScrollTracker {
     }
 
     public static void scrollUp () {
-        scrollUp(SCROLL_SIZE);
+        scrollUp(scrollSize);
     }
 
     public static void scrollUp (int amount) {
@@ -98,7 +99,7 @@ public class ScrollTracker {
     }
 
     public static void scrollDown () {
-        scrollDown(SCROLL_SIZE);
+        scrollDown(scrollSize);
     }
 
     public static void scrollDown (int amount) {
@@ -106,7 +107,7 @@ public class ScrollTracker {
     }
 
     public static void scrollLeft () {
-        scrollLeft(SCROLL_SIZE);
+        scrollLeft(scrollSize);
     }
 
     public static void scrollLeft (int amount) {
@@ -114,7 +115,7 @@ public class ScrollTracker {
     } 
 
     public static void scrollRight () {
-        scrollRight(SCROLL_SIZE);
+        scrollRight(scrollSize);
     }
 
     public static void scrollRight (int amount) {
