@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 public abstract class Options {
     public static boolean canScroll = true;
     public static boolean useWASD = false;
-    public static boolean resetOnUnlock = false;
+    public static boolean resetOnUnlock = true;
     public static boolean useLShift = true;
 
     public static final String CAN_SCROLL = "canScroll";

@@ -31,7 +31,7 @@ public class TooltipConfig {
             .build());
         
         general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.resetonunlock"), Options.resetOnUnlock)
-            .setDefaultValue(false)
+            .setDefaultValue(true)
             .setTooltip(Text.translatable("entrytooltip.tooltipscroll.resetonunlock"))
             .setSaveConsumer(newValue -> Options.resetOnUnlock = newValue)
             .build());
