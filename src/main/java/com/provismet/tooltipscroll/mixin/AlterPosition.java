@@ -19,9 +19,11 @@ public abstract class AlterPosition {
 	// It's just a QOL feature because some menus are scrollable and would be moved by the scrollwheel.
 	@Inject (method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", at = @At("HEAD"))
 	public void applyTracker (TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo info) {
-		ScrollTracker.unlock();
-		ScrollTracker.update();
-		ScrollTracker.setItem(components);
+		if (components.size() > 0) {
+			ScrollTracker.unlock();
+			ScrollTracker.update();
+			ScrollTracker.setItem(components);
+		}
 	}
 
 	// Using an invoke inject here because the tooltip coordinates get checked for out of bounds positions. I want the scroll offset to only apply after the bound check.
