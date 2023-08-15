@@ -9,10 +9,16 @@
     "entry.tooltipscroll.usewasd": "Enable WASD",
     "entry.tooltipscroll.resetonunlock": "Reset Position When Not Hovered",
     "entry.tooltipscroll.uselshift": "Use Left-Shift",
+    "entry.tooltipscroll.scrollspeed": "Mouse Scrolling Speed",
+    "entry.tooltipscroll.scrollspeedkeys": "Keyboard Scrolling Speed",
+    "entry.tooltipscroll.smoothness": "Scroll Smoothness",
 
     "entrytooltip.tooltipscroll.usewasd": "Allows the WASD keys to move a tooltip.",
     "entrytooltip.tooltipscroll.resetonunlock": "Resets the position of a tooltip when it is not visible.",
     "entrytooltip.tooltipscroll.uselshift": "Use left-shift for horizontal scrolling (unaffected by keybind).",
+    "entrytooltip.tooltipscroll.scrollspeed": "Tooltip speed when scrolling with the mouse.",
+    "entrytooltip.tooltipscroll.scrollspeedkeys": "Tooltip speed when moving it with the keyboard.",
+    "entrytooltip.tooltipscroll.smoothness": "How fast the tooltip should slide between positions.\nRange of (0.05 - 1) where 1 is instant.",
 
     "key.tooltipscroll.moveUp": "Move Tooltip Up",
     "key.tooltipscroll.moveDown": "Move Tooltip Down",
