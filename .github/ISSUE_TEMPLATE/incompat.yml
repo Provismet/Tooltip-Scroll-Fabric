@@ -1,6 +1,7 @@
 name: Report Incompatibility
 description: Report incompatibilities between this mod and other mods / mod loaders.
 labels: ["bug", "incompatibility"]
+projects: "Provismet/3"
 body:
   - type: dropdown
     id: bug-type
