@@ -1,6 +1,7 @@
 name: Report Bugs
 description: Report bugs or errors with the mod.
 labels: "bug"
+projects: "Provismet/3"
 body:
   - type: dropdown
     id: bug-type
