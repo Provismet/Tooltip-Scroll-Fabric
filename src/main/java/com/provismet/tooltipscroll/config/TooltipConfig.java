@@ -19,8 +19,9 @@ public class TooltipConfig {
         ConfigCategory general = builder.getOrCreateCategory(Text.translatable("category.tooltipscroll.general"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.canScroll"), Options.canScroll)
+        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.canscroll"), Options.canScroll)
             .setDefaultValue(true)
+            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.canscroll"))
             .setSaveConsumer(newValue -> Options.canScroll = newValue)
             .build());
 
@@ -54,15 +55,15 @@ public class TooltipConfig {
                 .setSaveConsumer(newValue -> Options.invertYScroll = newValue)
                 .build());
 
-        general.addEntry(entryBuilder.startIntField(Text.translatable("entry.tooltipscroll.scrollspeed"), ScrollTracker.scrollSize)
+        general.addEntry(entryBuilder.startIntField(Text.translatable("entry.tooltipscroll.scrolldistance"), ScrollTracker.scrollSize)
             .setDefaultValue(10)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.scrollspeed"))
+            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.scrolldistance"))
             .setSaveConsumer(newValue -> ScrollTracker.scrollSize = (int)MathHelper.absMax(1, newValue))
             .build());
         
-        general.addEntry(entryBuilder.startIntField(Text.translatable("entry.tooltipscroll.scrollspeedkeys"), ScrollTracker.scrollSizeKeyboard)
+        general.addEntry(entryBuilder.startIntField(Text.translatable("entry.tooltipscroll.scrolldistancekeys"), ScrollTracker.scrollSizeKeyboard)
             .setDefaultValue(5)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.scrollspeedkeys"))
+            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.scrolldistancekeys"))
             .setSaveConsumer(newValue -> ScrollTracker.scrollSizeKeyboard = (int)MathHelper.absMax(1, newValue))
             .build());
 

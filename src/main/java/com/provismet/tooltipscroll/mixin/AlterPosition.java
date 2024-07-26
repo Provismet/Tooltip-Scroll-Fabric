@@ -16,14 +16,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(DrawContext.class)
 public abstract class AlterPosition {
 	// Allows tooltips to be moved with keybinds.
-	// It's just a QOL feature because some menus are scrollable and would be moved by the scrollwheel.
-	@Inject (method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", at = @At("HEAD"))
+	// It's just a QOL feature because some menus are scrollable and would be moved by the scroll wheel.
+	@Inject (method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/tooltip/TooltipPositioner;getPosition(IIIIII)Lorg/joml/Vector2ic;", shift = At.Shift.BEFORE))
 	public void applyTracker (TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo info) {
-		if (components.size() > 0) {
-			ScrollTracker.unlock();
-			ScrollTracker.update();
-			ScrollTracker.setItem(components);
-		}
+		ScrollTracker.unlock();
+		ScrollTracker.update();
+		ScrollTracker.setItem(components);
 	}
 
 	// Using an invoke inject here because the tooltip coordinates get checked for out of bounds positions. I want the scroll offset to only apply after the bound check.

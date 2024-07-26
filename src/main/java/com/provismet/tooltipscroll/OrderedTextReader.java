@@ -17,7 +17,7 @@ public class OrderedTextReader {
 
         public boolean accept (int index, Style style, int codePoint) {
             if (index > this.finalIndex) this.finalIndex = index;
-            else if (index <= this.finalIndex) return false; // Only possible if the same index is re-read.
+            else return false; // Only possible if the same index is re-read.
 
             outputBuilder.append((char)codePoint);
             return true;
