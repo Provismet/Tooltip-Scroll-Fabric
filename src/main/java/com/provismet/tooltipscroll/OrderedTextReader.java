@@ -11,7 +11,7 @@ import net.minecraft.text.Style;
 public class OrderedTextReader {
     private static class Visitor implements CharacterVisitor {
         private int finalIndex = -1;
-        private StringBuilder outputBuilder = new StringBuilder();
+        private final StringBuilder outputBuilder = new StringBuilder();
 
         public Visitor () {}
 
