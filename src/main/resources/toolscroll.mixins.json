@@ -6,8 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "AlterPosition",
-    "TrackScrollWheel",
+    "DrawContextMixin",
+    "MouseMixin",
     "KeyBindAccessor",
     "OrderedTextTooltipComponentAccessor",
     "ScreenMixin"
