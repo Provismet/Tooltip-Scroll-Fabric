@@ -8,9 +8,7 @@ public class TooltipScrollModMenu implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory () {
         if (TooltipScrollClient.hasCloth()) {
-            return parent -> {
-                return TooltipConfig.build(parent);
-            };
+            return TooltipConfig::build;
         }
         else {
             return parent -> null;

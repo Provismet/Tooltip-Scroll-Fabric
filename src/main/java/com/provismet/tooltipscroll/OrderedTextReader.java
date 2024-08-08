@@ -48,9 +48,7 @@ public class OrderedTextReader {
          * 
          * There is an example of this at TextHandler.getStyleAt(OrderedText, int)
          */
-        text.accept((index, style, codePoint) -> {
-            return visitor.accept(index, style, codePoint);
-        });
+        text.accept(visitor);
 
         return visitor.getString();
     }
