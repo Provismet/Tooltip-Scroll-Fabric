@@ -2,6 +2,7 @@ package com.provismet.tooltipscroll;
 
 import java.util.List;
 
+import org.apache.commons.lang3.mutable.MutableDouble;
 import org.lwjgl.glfw.GLFW;
 
 import com.provismet.tooltipscroll.mixin.KeyBindAccessor;
@@ -83,11 +84,13 @@ public class ScrollTracker {
     }
 
     public static int getXOffset () {
-        return MathHelper.floor(currentXOffset);
+        MutableDouble convenientInjectionPoint = new MutableDouble(currentXOffset); // Other mods can inject here and manipulate this object for compatibility.
+        return MathHelper.floor(convenientInjectionPoint.doubleValue());
     }
 
     public static int getYOffset () {
-        return MathHelper.floor(currentYOffset);
+        MutableDouble convenientInjectionPoint = new MutableDouble(currentYOffset); // Other mods can inject here and manipulate this object for compatibility.
+        return MathHelper.floor(convenientInjectionPoint.doubleValue());
     }
 
     public static void scrollUp () {
