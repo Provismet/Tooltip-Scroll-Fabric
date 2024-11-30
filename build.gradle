@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.11-SNAPSHOT'
 	id 'maven-publish'
+	id 'me.modmuss50.mod-publish-plugin' version '0.6.3'
 }
 
 version = project.mod_version + "+" + project.minecraft_version
@@ -63,10 +64,54 @@ jar {
 	}
 }
 
+publishMods {
+	file = remapJar.archiveFile
+	additionalFiles.from(remapSourcesJar.archiveFile)
+	changelog = file("changelog.md").text
+	type = STABLE
+	modLoaders.add("fabric")
+	modLoaders.add("quilt")
+	displayName = project.version.toString()
+	dryRun = providers.environmentVariable("GITHUB_TOKEN").getOrNull() == null || providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null || providers.environmentVariable("CURSEFORGE_TOKEN").getOrNull() == null
+
+	github {
+		repository = "Provismet/${project.github_repo}"
+		accessToken = providers.environmentVariable("GITHUB_TOKEN")
+		commitish = "${project.github_branch}"
+		tagName = "${project.mod_version}-mc${project.minecraft_version}"
+		allowEmptyFiles = true
+		displayName = "${project.mod_version} - ${project.minecraft_version}"
+	}
+
+	modrinth {
+		projectId = project.modrinth_id
+		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		minecraftVersionRange {
+			start = project.version_start
+			end = project.version_end
+		}
+		requires("fabric-api")
+	}
+
+	curseforge {
+		projectId = project.curseforge_id
+		accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+		clientRequired = true
+		serverRequired = false
+		minecraftVersionRange {
+			start = project.version_start
+			end = project.version_end
+		}
+		requires("fabric-api")
+	}
+}
+
 // configure the maven publication
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
+			version = project.mod_version + "-mc" + project.minecraft_version
+			artifactId = "tooltip-scroll-fabric"
 			from components.java
 		}
 	}
