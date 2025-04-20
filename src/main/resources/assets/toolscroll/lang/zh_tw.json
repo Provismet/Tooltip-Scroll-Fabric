@@ -1,0 +1,32 @@
+{
+    "category.tooltipscroll.keys": "Tooltip Scroll",
+
+    "title.tooltipscroll.config": "Tooltip Scroll",
+
+    "category.tooltipscroll.general": "通用",
+
+    "entry.tooltipscroll.canscroll": "啟用滾輪",
+    "entry.tooltipscroll.usewasd": "啟用WASD",
+    "entry.tooltipscroll.resetonunlock": "未懸停時重置位置",
+    "entry.tooltipscroll.uselshift": "使用左Shift鍵",
+    "entry.tooltipscroll.invertxscroll": "反轉水平移動",
+    "entry.tooltipscroll.invertyscroll": "反轉垂直移動",
+    "entry.tooltipscroll.scrollspeed": "滑鼠捲動速度",
+    "entry.tooltipscroll.scrollspeedkeys": "鍵盤捲動速度",
+    "entry.tooltipscroll.smoothness": "捲動平滑度",
+
+    "entrytooltip.tooltipscroll.canscroll": "允許使用滑鼠滾輪移動工具提示。",
+    "entrytooltip.tooltipscroll.usewasd": "允許使用WASD鍵移動工具提示。",
+    "entrytooltip.tooltipscroll.resetonunlock": "當工具提示不可見時重置其位置。",
+    "entrytooltip.tooltipscroll.uselshift": "使用左Shift鍵進行水平移動。（不受鍵盤影響）",
+    "entrytooltip.tooltipscroll.invertxscroll": "反轉工具提示水平移動時的方向。",
+    "entrytooltip.tooltipscroll.invertyscroll": "反轉工具提示垂直移動時的方向。",
+    "entrytooltip.tooltipscroll.scrollspeed": "使用滑鼠捲動時工具提示的移動速度。",
+    "entrytooltip.tooltipscroll.scrollspeedkeys": "使用鍵盤捲動時工具提示的移動速度。",
+    "entrytooltip.tooltipscroll.smoothness": "工具提示的移動速度。\n范圍為[0.05 - 1]，1是即時性的。",
+
+    "key.tooltipscroll.moveUp": "使工具提示向上移動",
+    "key.tooltipscroll.moveDown": "使工具提示向下移動",
+    "key.tooltipscroll.horizontal": "水平移動",
+    "key.tooltipscroll.reset": "重置工具提示"
+}
