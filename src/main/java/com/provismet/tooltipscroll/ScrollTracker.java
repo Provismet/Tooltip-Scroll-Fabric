@@ -2,6 +2,7 @@ package com.provismet.tooltipscroll;
 
 import java.util.List;
 
+import net.minecraft.client.util.Window;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.lwjgl.glfw.GLFW;
 
@@ -36,7 +37,7 @@ public class ScrollTracker {
         currentXOffset += (trueXOffset - currentXOffset) * smoothnessModifier;
         currentYOffset += (trueYOffset - currentYOffset) * smoothnessModifier;
 
-        long mcHandle = MinecraftClient.getInstance().getWindow().getHandle();
+        Window window = MinecraftClient.getInstance().getWindow();
 
 		// An unbound key has a code of -1.
 		int up = ((KeyBindAccessor)TooltipScrollClient.moveUp).getBoundKey().getCode();
@@ -45,40 +46,40 @@ public class ScrollTracker {
 		int reset = ((KeyBindAccessor)TooltipScrollClient.reset).getBoundKey().getCode();
 
 		if (Options.useWASD) {
-			if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_W)) {
+			if (InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_W)) {
 				ScrollTracker.scrollUp(scrollSizeKeyboard);
 			}
-			else if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_S)) {
+			else if (InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_S)) {
 				ScrollTracker.scrollDown(scrollSizeKeyboard);
 			}
 
-			if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_A)) {
+			if (InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_A)) {
 				ScrollTracker.scrollLeft(scrollSizeKeyboard);
 			}
-			else if (InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_D)) {
+			else if (InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_D)) {
 				ScrollTracker.scrollRight(scrollSizeKeyboard);
 			}
 		}
 
 		// Check for -1 codes first.
 		// They don't cause Exceptions, but they do create a messy block of errors on the render thread when logging.
-		if (up != -1 && InputUtil.isKeyPressed(mcHandle, up)) {
-			if ((horizontal != -1 && InputUtil.isKeyPressed(mcHandle, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
+		if (up != -1 && InputUtil.isKeyPressed(window, up)) {
+			if ((horizontal != -1 && InputUtil.isKeyPressed(window, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_SHIFT))) {
 				ScrollTracker.scrollLeft(scrollSizeKeyboard);
 			}
 			else {
 				ScrollTracker.scrollUp(scrollSizeKeyboard);
 			}
 		}
-		else if (down != -1 && InputUtil.isKeyPressed(mcHandle, down)) {
-			if ((horizontal != -1 && InputUtil.isKeyPressed(mcHandle, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
+		else if (down != -1 && InputUtil.isKeyPressed(window, down)) {
+			if ((horizontal != -1 && InputUtil.isKeyPressed(window, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_SHIFT))) {
 				ScrollTracker.scrollRight(scrollSizeKeyboard);
 			}
 			else {
 				ScrollTracker.scrollDown(scrollSizeKeyboard);
 			}
 		}
-		else if (reset != -1 && InputUtil.isKeyPressed(mcHandle, reset)) {
+		else if (reset != -1 && InputUtil.isKeyPressed(window, reset)) {
 			ScrollTracker.reset();
 		}
     }

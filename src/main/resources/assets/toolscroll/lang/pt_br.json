@@ -1,5 +1,5 @@
 {
-    "category.tooltipscroll.keys": "Rolagem da tooltip",
+    "key.category.tooltipscroll.keys": "Rolagem da tooltip",
     "key.tooltipscroll.moveUp": "Mover tooltip para cima",
     "key.tooltipscroll.moveDown": "Mover tooltip para baixo",
     "key.tooltipscroll.horizontal": "Movimento Horizontal",

@@ -8,6 +8,7 @@ import com.provismet.tooltipscroll.Options;
 import com.provismet.tooltipscroll.ScrollTracker;
 import com.provismet.tooltipscroll.TooltipScrollClient;
 
+import net.minecraft.client.util.Window;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,10 +24,10 @@ public class MouseMixin {
     private void trackWheel (long window, double horizontal, double vertical, CallbackInfo info) {
         if (!Options.canScroll) return;
 
-        long mcHandle = MinecraftClient.getInstance().getWindow().getHandle();
+        Window mcWindow = MinecraftClient.getInstance().getWindow();
         int horizontalMove = ((KeyBindAccessor)TooltipScrollClient.horizontal).getBoundKey().getCode();
 
-        if ((horizontalMove != -1 && InputUtil.isKeyPressed(mcHandle, horizontalMove)) || (Options.useLShift && InputUtil.isKeyPressed(mcHandle, GLFW.GLFW_KEY_LEFT_SHIFT))) {
+        if ((horizontalMove != -1 && InputUtil.isKeyPressed(mcWindow, horizontalMove)) || (Options.useLShift && InputUtil.isKeyPressed(mcWindow, GLFW.GLFW_KEY_LEFT_SHIFT))) {
             scrollX(vertical);
         }
         else {
