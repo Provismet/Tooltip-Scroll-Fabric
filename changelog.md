@@ -1,2 +1,1 @@
-## Changes
-- Added zh_cn and zh_tw translations.
+- Updated to 1.21.10 Minecraft.
