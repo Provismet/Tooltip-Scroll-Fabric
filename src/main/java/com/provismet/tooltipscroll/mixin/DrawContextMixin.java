@@ -2,6 +2,7 @@ package com.provismet.tooltipscroll.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
+import com.provismet.tooltipscroll.Options;
 import com.provismet.tooltipscroll.ScrollTracker;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -38,7 +39,7 @@ public abstract class DrawContextMixin {
 		effectiveX.set(effectiveX.get() + ScrollTracker.getXOffset());
 		effectiveY.set(effectiveY.get() + ScrollTracker.getYOffset());
 
-        if (!ScrollTracker.hasMoved()) {
+        if (Options.startOnTop && !ScrollTracker.hasMoved()) {
             int originalY = effectiveY.get();
             if (effectiveY.get() < 4) {
                 effectiveY.set(4);

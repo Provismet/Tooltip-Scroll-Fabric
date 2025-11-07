@@ -30,6 +30,12 @@ public class TooltipConfig {
             .setTooltip(Text.translatable("entrytooltip.tooltipscroll.usewasd"))
             .setSaveConsumer(newValue -> Options.useWASD = newValue)
             .build());
+
+        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.startontop"), Options.startOnTop)
+            .setDefaultValue(false)
+            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.startontop"))
+            .setSaveConsumer(newValue -> Options.startOnTop = newValue)
+            .build());
         
         general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.resetonunlock"), Options.resetOnUnlock)
             .setDefaultValue(true)
