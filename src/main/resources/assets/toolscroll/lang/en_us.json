@@ -7,6 +7,7 @@
 
     "entry.tooltipscroll.canscroll": "Enable ScrollWheel",
     "entry.tooltipscroll.usewasd": "Enable WASD",
+    "entry.tooltipscroll.startontop": "Start On Top",
     "entry.tooltipscroll.resetonunlock": "Reset Position When Not Hovered",
     "entry.tooltipscroll.uselshift": "Use Left-Shift",
     "entry.tooltipscroll.invertxscroll": "Invert Horizontal Movement",
@@ -17,6 +18,7 @@
 
     "entrytooltip.tooltipscroll.canscroll": "Allows the scroll wheel to move a tooltip.",
     "entrytooltip.tooltipscroll.usewasd": "Allows the WASD keys to move a tooltip.",
+    "entrytooltip.tooltipscroll.startontop": "Start at the top of the tooltip when hovered (if off-screen)",
     "entrytooltip.tooltipscroll.resetonunlock": "Resets the position of a tooltip when it is not visible.",
     "entrytooltip.tooltipscroll.uselshift": "Use left-shift for horizontal scrolling. (unaffected by keybind)",
     "entrytooltip.tooltipscroll.invertxscroll": "Invert the horizontal tooltip movement when scrolling.",
