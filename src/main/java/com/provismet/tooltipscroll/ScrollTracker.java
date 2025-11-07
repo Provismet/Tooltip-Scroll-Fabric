@@ -22,6 +22,8 @@ public class ScrollTracker {
 
     private static double trueXOffset = 0;
     private static double trueYOffset = 0;
+
+		private static boolean moved = false;
     
     // save the currently selected item, the scroll offset will reset if the user hovers over a different item
     private static List<TooltipComponent> currentItem;
@@ -94,36 +96,49 @@ public class ScrollTracker {
         return MathHelper.floor(convenientInjectionPoint.doubleValue());
     }
 
+		public static void setInitialYOffset(int offset) {
+				trueYOffset += offset;
+				currentYOffset = trueYOffset;
+		}
+
     public static void scrollUp () {
         scrollUp(scrollSize);
+				moved = true;
     }
 
     public static void scrollUp (int amount) {
         if (!isLocked()) trueYOffset -= amount;
+				moved = true;
     }
 
     public static void scrollDown () {
         scrollDown(scrollSize);
+				moved = true;
     }
 
     public static void scrollDown (int amount) {
         if (!isLocked()) trueYOffset += amount;
+				moved = true;
     }
 
     public static void scrollLeft () {
         scrollLeft(scrollSize);
+				moved = true;
     }
 
     public static void scrollLeft (int amount) {
         if (!isLocked()) trueXOffset -= amount;
+				moved = true;
     } 
 
     public static void scrollRight () {
         scrollRight(scrollSize);
+				moved = true;
     }
 
     public static void scrollRight (int amount) {
         if (!isLocked()) trueXOffset += amount;
+				moved = true;
     }
 
     private static void resetScroll () {
@@ -131,6 +146,7 @@ public class ScrollTracker {
         currentYOffset = 0;
         trueXOffset = 0;
         trueYOffset = 0;
+				moved = false;
     }
 
     private static boolean isEqual (List<TooltipComponent> item1, List<TooltipComponent> item2) {
@@ -175,4 +191,8 @@ public class ScrollTracker {
         }
         unlockTime = System.currentTimeMillis();
     }
+
+		public static boolean hasMoved() {
+				return moved;
+		}
 }
