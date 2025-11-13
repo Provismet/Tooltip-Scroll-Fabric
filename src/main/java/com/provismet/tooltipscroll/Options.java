@@ -11,6 +11,7 @@ import java.io.FileWriter;
 public abstract class Options {
     public static boolean canScroll = true;
     public static boolean useWASD = false;
+    public static boolean startOnTop = false;
     public static boolean resetOnUnlock = true;
     public static boolean useLShift = true;
     public static boolean invertXScroll = false;
@@ -18,6 +19,7 @@ public abstract class Options {
 
     public static final String CAN_SCROLL = "canScroll";
     public static final String USE_WASD = "useWASD";
+    public static final String START_ON_TOP = "startOnTop";
     public static final String RESET_ON_UNLOCK = "resetOnUnlock";
     public static final String USE_LEFT_SHIFT = "useLShift";
     public static final String INVERT_X_SCROLL = "invertXScroll";
@@ -30,6 +32,7 @@ public abstract class Options {
         String json = new JsonBuilder()
             .append(CAN_SCROLL, canScroll)
             .append(USE_WASD, useWASD)
+            .append(START_ON_TOP, startOnTop)
             .append(RESET_ON_UNLOCK, resetOnUnlock)
             .append(USE_LEFT_SHIFT, useLShift)
             .append(INVERT_X_SCROLL, invertXScroll)
@@ -53,6 +56,7 @@ public abstract class Options {
             if (reader != null) {
                 reader.getBoolean(CAN_SCROLL).ifPresent(val -> canScroll = val);
                 reader.getBoolean(USE_WASD).ifPresent(val -> useWASD = val);
+                reader.getBoolean(START_ON_TOP).ifPresent(val -> startOnTop = val);
                 reader.getBoolean(RESET_ON_UNLOCK).ifPresent(val -> resetOnUnlock = val);
                 reader.getBoolean(USE_LEFT_SHIFT).ifPresent(val -> useLShift = val);
                 reader.getBoolean(INVERT_X_SCROLL).ifPresent(val -> invertXScroll = val);
