@@ -7,6 +7,7 @@
 
     "entry.tooltipscroll.canscroll": "启用滚轮",
     "entry.tooltipscroll.usewasd": "启用WASD",
+    "entry.tooltipscroll.startontop": "从顶部开始显示",
     "entry.tooltipscroll.resetonunlock": "未悬停时重置位置",
     "entry.tooltipscroll.uselshift": "使用左Shift键",
     "entry.tooltipscroll.invertxscroll": "反转水平移动",
@@ -17,6 +18,7 @@
 
     "entrytooltip.tooltipscroll.canscroll": "允许使用鼠标滚轮移动工具提示。",
     "entrytooltip.tooltipscroll.usewasd": "允许使用WASD键移动工具提示。",
+    "entrytooltip.tooltipscroll.startontop": "当工具提示超出屏幕时，从顶部开始显示内容。",
     "entrytooltip.tooltipscroll.resetonunlock": "当工具提示不可见时重置其位置。",
     "entrytooltip.tooltipscroll.uselshift": "使用左Shift键进行水平移动。（不受键盘影响）",
     "entrytooltip.tooltipscroll.invertxscroll": "反转工具提示水平移动时的方向。",
