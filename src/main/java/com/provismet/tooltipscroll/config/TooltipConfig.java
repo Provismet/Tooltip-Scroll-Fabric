@@ -82,6 +82,12 @@ public class TooltipConfig {
             })
             .build());
 
+        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.matrix_compatibility"), Options.matrixMode)
+            .setDefaultValue(false)
+            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.matrix_compatibility"))
+            .setSaveConsumer(val -> Options.matrixMode = val)
+            .build());
+
         builder.setSavingRunnable(Options::saveJSON);
         return builder.build();
     }
