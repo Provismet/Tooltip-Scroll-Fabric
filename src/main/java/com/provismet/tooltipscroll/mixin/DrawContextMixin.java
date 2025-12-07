@@ -10,16 +10,23 @@ import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipPositioner;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.client.util.math.MatrixStack;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(DrawContext.class)
+@Mixin(value = DrawContext.class, priority = 1001)
 public abstract class DrawContextMixin {
-	// Allows tooltips to be moved with keybinds.
+    @Shadow
+    @Final
+    private MatrixStack matrices;
+
+    // Allows tooltips to be moved with keybinds.
 	// It's just a QOL feature because some menus are scrollable and would be moved by the scroll wheel.
 	@Inject (
 		method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;Lnet/minecraft/util/Identifier;)V",
@@ -36,6 +43,8 @@ public abstract class DrawContextMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.BEFORE)
 	)
 	private void editXY (TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, Identifier texture, CallbackInfo info, @Local(ordinal = 6) LocalIntRef effectiveX, @Local(ordinal = 7) LocalIntRef effectiveY) {
+        if (Options.matrixMode) return;
+
 		effectiveX.set(effectiveX.get() + ScrollTracker.getXOffset());
 		effectiveY.set(effectiveY.get() + ScrollTracker.getYOffset());
 
@@ -47,4 +56,24 @@ public abstract class DrawContextMixin {
             }
         }
 	}
+
+    @Inject(
+        method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;Lnet/minecraft/util/Identifier;)V",
+        at = @At("HEAD")
+    )
+    private void headMatrices(TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo info) {
+        if (!Options.matrixMode) return;
+
+        this.matrices.push();
+        this.matrices.translate(ScrollTracker.getXOffset(), ScrollTracker.getYOffset(), 0);
+    }
+
+    @Inject(
+        method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;IILnet/minecraft/client/gui/tooltip/TooltipPositioner;Lnet/minecraft/util/Identifier;)V",
+        at = @At("TAIL")
+    )
+    private void tailMatrices (TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo info) {
+        if (!Options.matrixMode) return;
+        this.matrices.pop();
+    }
 }

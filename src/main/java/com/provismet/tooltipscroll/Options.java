@@ -18,6 +18,7 @@ public abstract class Options {
     public static boolean useLShift = true;
     public static boolean invertXScroll = false;
     public static boolean invertYScroll = false;
+    public static boolean matrixMode = false;
 
     public static final String CAN_SCROLL = "canScroll";
     public static final String USE_WASD = "useWASD";
@@ -29,6 +30,7 @@ public abstract class Options {
     public static final String SCROLL_SPEED = "scrollSpeed";
     public static final String SCROLL_SPEED_KEYBOARD = "keyboardScrollSpeed";
     public static final String SMOOTHNESS = "scrollSmoothness";
+    public static final String MATRIX_COMPAT = "matrixCompatibilityMode";
 
     public static void saveJSON () {
         JsonBuilder builder = new JsonBuilder();
@@ -42,7 +44,8 @@ public abstract class Options {
             .append(INVERT_Y_SCROLL, invertYScroll).newLine()
             .append(SCROLL_SPEED, ScrollTracker.scrollSize).newLine()
             .append(SCROLL_SPEED_KEYBOARD, ScrollTracker.scrollSizeKeyboard).newLine()
-            .append(SMOOTHNESS, ScrollTracker.smoothnessModifier).newLine(false)
+            .append(SMOOTHNESS, ScrollTracker.smoothnessModifier).newLine()
+            .append(MATRIX_COMPAT, matrixMode).newLine(false)
             .closeObject()
             .toString();
 
@@ -66,7 +69,7 @@ public abstract class Options {
                     case CAN_SCROLL:
                         Options.canScroll = parser.nextBoolean();
                         break;
-                    
+
                     case USE_WASD:
                         Options.useWASD = parser.nextBoolean();
                         break;
@@ -74,7 +77,7 @@ public abstract class Options {
                     case START_ON_TOP:
                         Options.startOnTop = parser.nextBoolean();
                         break;
-                    
+
                     case RESET_ON_UNLOCK:
                         Options.resetOnUnlock = parser.nextBoolean();
                         break;
@@ -94,7 +97,7 @@ public abstract class Options {
                     case SCROLL_SPEED:
                         ScrollTracker.scrollSize = (int)MathHelper.absMax(1, parser.nextInt());
                         break;
-                    
+
                     case SCROLL_SPEED_KEYBOARD:
                         ScrollTracker.scrollSizeKeyboard = (int)MathHelper.absMax(1, parser.nextInt());
                         break;
@@ -103,7 +106,11 @@ public abstract class Options {
                         ScrollTracker.smoothnessModifier = MathHelper.absMax(0.05, parser.nextDouble());
                         if (ScrollTracker.smoothnessModifier > 1.0) ScrollTracker.smoothnessModifier = 1.0;
                         break;
-                
+
+                    case MATRIX_COMPAT:
+                        Options.matrixMode = parser.nextBoolean();
+                        break;
+
                     default:
                         break;
                 }
