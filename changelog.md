@@ -1,2 +1,3 @@
 ## Additions
-- Added option to start the tooltip at the top of the screen if it overflows. ([@unknown-salt](https://github.com/unknown-salt))
+- Added compatibility mode.
+  - Fixes incompatibilities with mods that use Iceberg's odd tooltip render events.
