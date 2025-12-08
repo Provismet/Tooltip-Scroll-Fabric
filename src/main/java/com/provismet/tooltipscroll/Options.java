@@ -1,12 +1,14 @@
 package com.provismet.tooltipscroll;
 
-import com.provismet.lilylib.util.json.JsonBuilder;
-import com.provismet.lilylib.util.json.JsonReader;
-import net.minecraft.util.math.MathHelper;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+
+import com.google.gson.stream.JsonReader;
+
+import com.provismet.lilylib.util.JsonBuilder;
+import net.minecraft.util.math.MathHelper;
 
 public abstract class Options {
     public static boolean canScroll = true;
@@ -29,17 +31,19 @@ public abstract class Options {
     public static final String SMOOTHNESS = "scrollSmoothness";
 
     public static void saveJSON () {
-        String json = new JsonBuilder()
-            .append(CAN_SCROLL, canScroll)
-            .append(USE_WASD, useWASD)
-            .append(START_ON_TOP, startOnTop)
-            .append(RESET_ON_UNLOCK, resetOnUnlock)
-            .append(USE_LEFT_SHIFT, useLShift)
-            .append(INVERT_X_SCROLL, invertXScroll)
-            .append(INVERT_Y_SCROLL, invertYScroll)
-            .append(SCROLL_SPEED, ScrollTracker.scrollSize)
-            .append(SCROLL_SPEED_KEYBOARD, ScrollTracker.scrollSizeKeyboard)
-            .append(SMOOTHNESS, ScrollTracker.smoothnessModifier)
+        JsonBuilder builder = new JsonBuilder();
+        String json = builder.start()
+            .append(CAN_SCROLL, canScroll).newLine()
+            .append(USE_WASD, useWASD).newLine()
+            .append(START_ON_TOP, startOnTop).newLine()
+            .append(RESET_ON_UNLOCK, resetOnUnlock).newLine()
+            .append(USE_LEFT_SHIFT, useLShift).newLine()
+            .append(INVERT_X_SCROLL, invertXScroll).newLine()
+            .append(INVERT_Y_SCROLL, invertYScroll).newLine()
+            .append(SCROLL_SPEED, ScrollTracker.scrollSize).newLine()
+            .append(SCROLL_SPEED_KEYBOARD, ScrollTracker.scrollSizeKeyboard).newLine()
+            .append(SMOOTHNESS, ScrollTracker.smoothnessModifier).newLine(false)
+            .closeObject()
             .toString();
 
         try (FileWriter writer = new FileWriter("config/tooltipscroll.json")) {
@@ -52,23 +56,68 @@ public abstract class Options {
 
     public static void readJSON () {
         try {
-            JsonReader reader = JsonReader.file(new File("config/tooltipscroll.json"));
-            if (reader != null) {
-                reader.getBoolean(CAN_SCROLL).ifPresent(val -> canScroll = val);
-                reader.getBoolean(USE_WASD).ifPresent(val -> useWASD = val);
-                reader.getBoolean(START_ON_TOP).ifPresent(val -> startOnTop = val);
-                reader.getBoolean(RESET_ON_UNLOCK).ifPresent(val -> resetOnUnlock = val);
-                reader.getBoolean(USE_LEFT_SHIFT).ifPresent(val -> useLShift = val);
-                reader.getBoolean(INVERT_X_SCROLL).ifPresent(val -> invertXScroll = val);
-                reader.getBoolean(INVERT_Y_SCROLL).ifPresent(val -> invertYScroll = val);
-                reader.getInteger(SCROLL_SPEED).ifPresent(val -> ScrollTracker.scrollSize = Math.max(1, val));
-                reader.getInteger(SCROLL_SPEED_KEYBOARD).ifPresent(val -> ScrollTracker.scrollSizeKeyboard = Math.max(1, val));
-                reader.getDouble(SMOOTHNESS).ifPresent(val -> ScrollTracker.smoothnessModifier = MathHelper.clamp(val, 0.05, 1.0));
+            FileReader reader = new FileReader("config/tooltipscroll.json");
+            JsonReader parser = new JsonReader(reader);
+
+            parser.beginObject();
+            while (parser.hasNext()) {
+                final String label = parser.nextName();
+                switch (label) {
+                    case CAN_SCROLL:
+                        Options.canScroll = parser.nextBoolean();
+                        break;
+                    
+                    case USE_WASD:
+                        Options.useWASD = parser.nextBoolean();
+                        break;
+
+                    case START_ON_TOP:
+                        Options.startOnTop = parser.nextBoolean();
+                        break;
+                    
+                    case RESET_ON_UNLOCK:
+                        Options.resetOnUnlock = parser.nextBoolean();
+                        break;
+
+                    case USE_LEFT_SHIFT:
+                        Options.useLShift = parser.nextBoolean();
+                        break;
+
+                    case INVERT_X_SCROLL:
+                        Options.invertXScroll = parser.nextBoolean();
+                        break;
+
+                    case INVERT_Y_SCROLL:
+                        Options.invertYScroll = parser.nextBoolean();
+                        break;
+
+                    case SCROLL_SPEED:
+                        ScrollTracker.scrollSize = (int)MathHelper.absMax(1, parser.nextInt());
+                        break;
+                    
+                    case SCROLL_SPEED_KEYBOARD:
+                        ScrollTracker.scrollSizeKeyboard = (int)MathHelper.absMax(1, parser.nextInt());
+                        break;
+
+                    case SMOOTHNESS:
+                        ScrollTracker.smoothnessModifier = MathHelper.absMax(0.05, parser.nextDouble());
+                        if (ScrollTracker.smoothnessModifier > 1.0) ScrollTracker.smoothnessModifier = 1.0;
+                        break;
+                
+                    default:
+                        break;
+                }
             }
+            parser.close();
+        } catch (FileNotFoundException e) {
+            try {
+                (new File("config")).mkdirs();
+                saveJSON();
+            } catch (Exception e2) {
+                // Do nothing.
+            }
+        } catch (Exception e) {
+            // Do nothing.
         }
-        catch (FileNotFoundException e) {
-            TooltipScrollClient.LOGGER.info("Failed to find TooltipScroll config, constructing default.");
-        }
-        saveJSON();
     }
 }
