@@ -88,6 +88,12 @@ public class TooltipConfig {
             .setSaveConsumer(val -> Options.matrixMode = val)
             .build());
 
+        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.disablechatscroll"), Options.disableChatScroll)
+                .setDefaultValue(false)
+                .setTooltip(Text.translatable("entrytooltip.tooltipscroll.disablechatscroll"))
+                .setSaveConsumer(val -> Options.disableChatScroll = val)
+                .build());
+
         builder.setSavingRunnable(Options::saveJSON);
         return builder.build();
     }

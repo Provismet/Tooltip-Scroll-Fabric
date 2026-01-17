@@ -17,4 +17,10 @@ public abstract class ScreenMixin {
 	public void resetTrackerOnScreenClose (CallbackInfo info) {
 		ScrollTracker.reset();
 	}
+
+    @Inject( method = "render", at = @At("HEAD"))
+    private void resetTooltipState(CallbackInfo info){
+        //set the state of tooltips to be false at the start of the render frame. If any tooltip is displayed during the render, it should be set to true from within DrawContextMixin.
+        ScrollTracker.setTooltipShown(false);
+    }
 }

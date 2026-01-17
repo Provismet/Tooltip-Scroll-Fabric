@@ -62,6 +62,7 @@ public abstract class DrawContextMixin {
         at = @At("HEAD")
     )
     private void headMatrices(TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, Identifier texture, CallbackInfo info) {
+        ScrollTracker.setTooltipShown(true);
         if (!Options.matrixMode) return;
 
         this.matrices.pushMatrix();

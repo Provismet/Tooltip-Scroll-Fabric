@@ -23,7 +23,8 @@ public class ScrollTracker {
     private static double trueYOffset = 0;
 
 		private static boolean moved = false;
-    
+
+    private static boolean tooltipShown = false;
     // save the currently selected item, the scroll offset will reset if the user hovers over a different item
     private static List<TooltipComponent> currentItem;
 
@@ -191,6 +192,13 @@ public class ScrollTracker {
         unlockTime = System.currentTimeMillis();
     }
 
+    public static void setTooltipShown(boolean state){
+        tooltipShown = state;
+    }
+    
+    public static boolean isTooltipShown(){
+        return tooltipShown;
+    }
 		public static boolean hasMoved() {
 				return moved;
 		}
