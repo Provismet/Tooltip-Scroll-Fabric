@@ -16,6 +16,7 @@
     "entry.tooltipscroll.scrollspeedkeys": "Keyboard Scrolling Speed",
     "entry.tooltipscroll.smoothness": "Scroll Smoothness",
     "entry.tooltipscroll.matrix_compatibility": "Matrix Compatibility",
+    "entry.tooltipscroll.disablechatscroll": "Disable Chat Scrolling",
 
     "entrytooltip.tooltipscroll.canscroll": "Allows the scroll wheel to move a tooltip.",
     "entrytooltip.tooltipscroll.usewasd": "Allows the WASD keys to move a tooltip.",
@@ -28,6 +29,7 @@
     "entrytooltip.tooltipscroll.scrollspeedkeys": "Tooltip speed when moving it with the keyboard.",
     "entrytooltip.tooltipscroll.smoothness": "How fast the tooltip should slide between positions.\nRange of [0.05 - 1], where 1 is instant.",
     "entrytooltip.tooltipscroll.matrix_compatibility": "Changes how Tooltip Scroll handles tooltips moving.\nMay improve compatibility with some mods.\nBreaks the start-on-top feature.",
+    "entrytooltip.tooltipscroll.disablechatscroll": "Disable scrolling chat while hovering a tooltip.",
 
     "key.tooltipscroll.moveUp": "Move Tooltip Up",
     "key.tooltipscroll.moveDown": "Move Tooltip Down",

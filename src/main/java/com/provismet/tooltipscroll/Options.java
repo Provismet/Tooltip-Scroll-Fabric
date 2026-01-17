@@ -17,6 +17,7 @@ public abstract class Options {
     public static boolean invertXScroll = false;
     public static boolean invertYScroll = false;
     public static boolean matrixMode = false;
+    public static boolean disableChatScroll = false;
 
     private static final String CAN_SCROLL = "canScroll";
     private static final String USE_WASD = "useWASD";
@@ -29,6 +30,7 @@ public abstract class Options {
     private static final String SCROLL_SPEED_KEYBOARD = "keyboardScrollSpeed";
     private static final String SMOOTHNESS = "scrollSmoothness";
     private static final String MATRIX_COMPAT = "matrixCompatibilityMode";
+    public static final String DISABLE_CHAT_SCROLL ="disableChatScroll";
 
     public static void saveJSON () {
         String json = new JsonBuilder()
@@ -43,6 +45,7 @@ public abstract class Options {
             .append(SCROLL_SPEED_KEYBOARD, ScrollTracker.scrollSizeKeyboard)
             .append(SMOOTHNESS, ScrollTracker.smoothnessModifier)
             .append(MATRIX_COMPAT, matrixMode)
+            .append(DISABLE_CHAT_SCROLL, disableChatScroll)
             .toString();
 
         try (FileWriter writer = new FileWriter("config/tooltipscroll.json")) {
@@ -68,6 +71,7 @@ public abstract class Options {
                 reader.getInteger(SCROLL_SPEED_KEYBOARD).ifPresent(val -> ScrollTracker.scrollSizeKeyboard = Math.max(1, val));
                 reader.getDouble(SMOOTHNESS).ifPresent(val -> ScrollTracker.smoothnessModifier = MathHelper.clamp(val, 0.05, 1.0));
                 reader.getBoolean(MATRIX_COMPAT).ifPresent(val -> matrixMode = val);
+                reader.getBoolean(DISABLE_CHAT_SCROLL).ifPresent(val -> disableChatScroll = val);
             }
         }
         catch (FileNotFoundException e) {
