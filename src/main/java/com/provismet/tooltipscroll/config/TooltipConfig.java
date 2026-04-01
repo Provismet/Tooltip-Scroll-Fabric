@@ -6,85 +6,85 @@ import com.provismet.tooltipscroll.ScrollTracker;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 
 public class TooltipConfig {
     public static Screen build (Screen parent) {
         ConfigBuilder builder = ConfigBuilder.create();
         builder.setParentScreen(parent);
-        builder.setTitle(Text.translatable("title.tooltipscroll.config"));
+        builder.setTitle(Component.translatable("title.tooltipscroll.config"));
         
-        ConfigCategory general = builder.getOrCreateCategory(Text.translatable("category.tooltipscroll.general"));
+        ConfigCategory general = builder.getOrCreateCategory(Component.translatable("category.tooltipscroll.general"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.canscroll"), Options.canScroll)
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("entry.tooltipscroll.canscroll"), Options.canScroll)
             .setDefaultValue(true)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.canscroll"))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.canscroll"))
             .setSaveConsumer(newValue -> Options.canScroll = newValue)
             .build());
 
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.usewasd"), Options.useWASD)
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("entry.tooltipscroll.usewasd"), Options.useWASD)
             .setDefaultValue(false)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.usewasd"))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.usewasd"))
             .setSaveConsumer(newValue -> Options.useWASD = newValue)
             .build());
 
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.startontop"), Options.startOnTop)
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("entry.tooltipscroll.startontop"), Options.startOnTop)
             .setDefaultValue(false)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.startontop"))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.startontop"))
             .setSaveConsumer(newValue -> Options.startOnTop = newValue)
             .build());
         
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.resetonunlock"), Options.resetOnUnlock)
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("entry.tooltipscroll.resetonunlock"), Options.resetOnUnlock)
             .setDefaultValue(true)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.resetonunlock"))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.resetonunlock"))
             .setSaveConsumer(newValue -> Options.resetOnUnlock = newValue)
             .build());
 
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.uselshift"), Options.useLShift)
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("entry.tooltipscroll.uselshift"), Options.useLShift)
             .setDefaultValue(true)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.uselshift"))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.uselshift"))
             .setSaveConsumer(newValue -> Options.useLShift = newValue)
             .build());
 
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.invertxscroll"), Options.invertXScroll)
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("entry.tooltipscroll.invertxscroll"), Options.invertXScroll)
                 .setDefaultValue(false)
-                .setTooltip(Text.translatable("entrytooltip.tooltipscroll.invertxscroll"))
+                .setTooltip(Component.translatable("entrytooltip.tooltipscroll.invertxscroll"))
                 .setSaveConsumer(newValue -> Options.invertXScroll = newValue)
                 .build());
 
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.invertyscroll"), Options.invertYScroll)
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("entry.tooltipscroll.invertyscroll"), Options.invertYScroll)
                 .setDefaultValue(false)
-                .setTooltip(Text.translatable("entrytooltip.tooltipscroll.invertyscroll"))
+                .setTooltip(Component.translatable("entrytooltip.tooltipscroll.invertyscroll"))
                 .setSaveConsumer(newValue -> Options.invertYScroll = newValue)
                 .build());
 
-        general.addEntry(entryBuilder.startIntField(Text.translatable("entry.tooltipscroll.scrollspeed"), ScrollTracker.scrollSize)
+        general.addEntry(entryBuilder.startIntField(Component.translatable("entry.tooltipscroll.scrollspeed"), ScrollTracker.scrollSize)
             .setDefaultValue(10)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.scrollspeed"))
-            .setSaveConsumer(newValue -> ScrollTracker.scrollSize = (int)MathHelper.absMax(1, newValue))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.scrollspeed"))
+            .setSaveConsumer(newValue -> ScrollTracker.scrollSize = (int)Mth.absMax(1, newValue))
             .build());
         
-        general.addEntry(entryBuilder.startIntField(Text.translatable("entry.tooltipscroll.scrollspeedkeys"), ScrollTracker.scrollSizeKeyboard)
+        general.addEntry(entryBuilder.startIntField(Component.translatable("entry.tooltipscroll.scrollspeedkeys"), ScrollTracker.scrollSizeKeyboard)
             .setDefaultValue(5)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.scrollspeedkeys"))
-            .setSaveConsumer(newValue -> ScrollTracker.scrollSizeKeyboard = (int)MathHelper.absMax(1, newValue))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.scrollspeedkeys"))
+            .setSaveConsumer(newValue -> ScrollTracker.scrollSizeKeyboard = (int)Mth.absMax(1, newValue))
             .build());
 
-        general.addEntry(entryBuilder.startDoubleField(Text.translatable("entry.tooltipscroll.smoothness"), ScrollTracker.smoothnessModifier)
+        general.addEntry(entryBuilder.startDoubleField(Component.translatable("entry.tooltipscroll.smoothness"), ScrollTracker.smoothnessModifier)
             .setDefaultValue(0.25)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.smoothness"))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.smoothness"))
             .setSaveConsumer(newValue -> {
-                ScrollTracker.smoothnessModifier = MathHelper.absMax(0.05, newValue);
+                ScrollTracker.smoothnessModifier = Mth.absMax(0.05, newValue);
                 if (ScrollTracker.smoothnessModifier > 1.0) ScrollTracker.smoothnessModifier = 1.0;
             })
             .build());
 
-        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("entry.tooltipscroll.matrix_compatibility"), Options.matrixMode)
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("entry.tooltipscroll.matrix_compatibility"), Options.matrixMode)
             .setDefaultValue(false)
-            .setTooltip(Text.translatable("entrytooltip.tooltipscroll.matrix_compatibility"))
+            .setTooltip(Component.translatable("entrytooltip.tooltipscroll.matrix_compatibility"))
             .setSaveConsumer(val -> Options.matrixMode = val)
             .build());
 

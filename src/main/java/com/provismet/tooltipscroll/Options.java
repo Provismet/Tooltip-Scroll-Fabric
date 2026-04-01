@@ -2,11 +2,10 @@ package com.provismet.tooltipscroll;
 
 import com.provismet.lilylib.util.json.JsonBuilder;
 import com.provismet.lilylib.util.json.JsonReader;
-import net.minecraft.util.math.MathHelper;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import net.minecraft.util.Mth;
 
 public abstract class Options {
     public static boolean canScroll = true;
@@ -66,7 +65,7 @@ public abstract class Options {
                 reader.getBoolean(INVERT_Y_SCROLL).ifPresent(val -> invertYScroll = val);
                 reader.getInteger(SCROLL_SPEED).ifPresent(val -> ScrollTracker.scrollSize = Math.max(1, val));
                 reader.getInteger(SCROLL_SPEED_KEYBOARD).ifPresent(val -> ScrollTracker.scrollSizeKeyboard = Math.max(1, val));
-                reader.getDouble(SMOOTHNESS).ifPresent(val -> ScrollTracker.smoothnessModifier = MathHelper.clamp(val, 0.05, 1.0));
+                reader.getDouble(SMOOTHNESS).ifPresent(val -> ScrollTracker.smoothnessModifier = Mth.clamp(val, 0.05, 1.0));
                 reader.getBoolean(MATRIX_COMPAT).ifPresent(val -> matrixMode = val);
             }
         }

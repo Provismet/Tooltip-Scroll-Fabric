@@ -4,11 +4,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.provismet.tooltipscroll.Options;
 import com.provismet.tooltipscroll.ScrollTracker;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.gui.tooltip.TooltipPositioner;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2fStack;
 import org.spongepowered.asm.mixin.Final;
@@ -19,30 +14,34 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.resources.Identifier;
 
-@Mixin(value = DrawContext.class, priority = 1001)
+@Mixin(value = GuiGraphics.class, priority = 1001)
 public abstract class DrawContextMixin {
-    @Shadow
-    @Final
-    private Matrix3x2fStack matrices;
+    @Shadow @Final
+    private Matrix3x2fStack pose;
 
     // Allows tooltips to be moved with keybinds.
 	// It's just a QOL feature because some menus are scrollable and would be moved by the scroll wheel.
 	@Inject (
-		method = "drawTooltipImmediately",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/tooltip/TooltipPositioner;getPosition(IIIIII)Lorg/joml/Vector2ic;")
+		method = "renderTooltip",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;positionTooltip(IIIIII)Lorg/joml/Vector2ic;")
 	)
-	public void applyTracker (TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo ci) {
+	public void applyTracker (Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo ci) {
 		ScrollTracker.unlock();
 		ScrollTracker.update();
 		ScrollTracker.setItem(components);
 	}
 
 	@Inject(
-        method = "drawTooltipImmediately",
+        method = "renderTooltip",
         at = @At(value = "INVOKE", target = "Lorg/joml/Matrix3x2fStack;pushMatrix()Lorg/joml/Matrix3x2fStack;")
 	)
-	private void editXY (TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo info, @Local(ordinal = 6) LocalIntRef effectiveX, @Local(ordinal = 7) LocalIntRef effectiveY) {
+	private void editXY (Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo info, @Local(ordinal = 6) LocalIntRef effectiveX, @Local(ordinal = 7) LocalIntRef effectiveY) {
         if (Options.matrixMode) return;
 
 		effectiveX.set(effectiveX.get() + ScrollTracker.getXOffset());
@@ -58,22 +57,22 @@ public abstract class DrawContextMixin {
 	}
 
     @Inject(
-        method = "drawTooltipImmediately",
+        method = "renderTooltip",
         at = @At("HEAD")
     )
-    private void headMatrices(TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, Identifier texture, CallbackInfo info) {
+    private void headMatrices(Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, Identifier texture, CallbackInfo info) {
         if (!Options.matrixMode) return;
 
-        this.matrices.pushMatrix();
-        this.matrices.translate(ScrollTracker.getXOffset(), ScrollTracker.getYOffset());
+        this.pose.pushMatrix();
+        this.pose.translate(ScrollTracker.getXOffset(), ScrollTracker.getYOffset());
     }
 
     @Inject(
-        method = "drawTooltipImmediately",
+        method = "renderTooltip",
         at = @At("TAIL")
     )
-    private void tailMatrices (TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, Identifier texture, CallbackInfo info) {
+    private void tailMatrices (Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, Identifier texture, CallbackInfo info) {
         if (!Options.matrixMode) return;
-        this.matrices.popMatrix();
+        this.pose.popMatrix();
     }
 }

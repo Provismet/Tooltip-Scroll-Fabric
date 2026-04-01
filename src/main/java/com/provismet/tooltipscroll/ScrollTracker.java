@@ -1,19 +1,16 @@
 package com.provismet.tooltipscroll;
 
 import java.util.List;
-
-import net.minecraft.client.util.Window;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTextTooltip;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.util.Mth;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.lwjgl.glfw.GLFW;
-
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
 import com.provismet.tooltipscroll.mixin.KeyBindAccessor;
 import com.provismet.tooltipscroll.mixin.OrderedTextTooltipComponentAccessor;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.tooltip.OrderedTextTooltipComponent;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.math.MathHelper;
 
 public class ScrollTracker {
     // render functions are called every frame, so the offset needs to be saved somewhere
@@ -26,7 +23,7 @@ public class ScrollTracker {
 		private static boolean moved = false;
     
     // save the currently selected item, the scroll offset will reset if the user hovers over a different item
-    private static List<TooltipComponent> currentItem;
+    private static List<ClientTooltipComponent> currentItem;
 
     private static long unlockTime = System.currentTimeMillis();
     private static final long RELOCK_AT = 100;
@@ -39,61 +36,61 @@ public class ScrollTracker {
         currentXOffset += (trueXOffset - currentXOffset) * smoothnessModifier;
         currentYOffset += (trueYOffset - currentYOffset) * smoothnessModifier;
 
-        Window window = MinecraftClient.getInstance().getWindow();
+        Window window = Minecraft.getInstance().getWindow();
 
 		// An unbound key has a code of -1.
-		int up = ((KeyBindAccessor)TooltipScrollClient.moveUp).getBoundKey().getCode();
-		int down = ((KeyBindAccessor)TooltipScrollClient.moveDown).getBoundKey().getCode();
-		int horizontal = ((KeyBindAccessor)TooltipScrollClient.horizontal).getBoundKey().getCode();
-		int reset = ((KeyBindAccessor)TooltipScrollClient.reset).getBoundKey().getCode();
+		int up = ((KeyBindAccessor)TooltipScrollClient.moveUp).getKey().getValue();
+		int down = ((KeyBindAccessor)TooltipScrollClient.moveDown).getKey().getValue();
+		int horizontal = ((KeyBindAccessor)TooltipScrollClient.horizontal).getKey().getValue();
+		int reset = ((KeyBindAccessor)TooltipScrollClient.reset).getKey().getValue();
 
 		if (Options.useWASD) {
-			if (InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_W)) {
+			if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_W)) {
 				ScrollTracker.scrollUp(scrollSizeKeyboard);
 			}
-			else if (InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_S)) {
+			else if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_S)) {
 				ScrollTracker.scrollDown(scrollSizeKeyboard);
 			}
 
-			if (InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_A)) {
+			if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_A)) {
 				ScrollTracker.scrollLeft(scrollSizeKeyboard);
 			}
-			else if (InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_D)) {
+			else if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_D)) {
 				ScrollTracker.scrollRight(scrollSizeKeyboard);
 			}
 		}
 
 		// Check for -1 codes first.
 		// They don't cause Exceptions, but they do create a messy block of errors on the render thread when logging.
-		if (up != -1 && InputUtil.isKeyPressed(window, up)) {
-			if ((horizontal != -1 && InputUtil.isKeyPressed(window, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_SHIFT))) {
+		if (up != -1 && InputConstants.isKeyDown(window, up)) {
+			if ((horizontal != -1 && InputConstants.isKeyDown(window, horizontal)) || (Options.useLShift && InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_SHIFT))) {
 				ScrollTracker.scrollLeft(scrollSizeKeyboard);
 			}
 			else {
 				ScrollTracker.scrollUp(scrollSizeKeyboard);
 			}
 		}
-		else if (down != -1 && InputUtil.isKeyPressed(window, down)) {
-			if ((horizontal != -1 && InputUtil.isKeyPressed(window, horizontal)) || (Options.useLShift && InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_SHIFT))) {
+		else if (down != -1 && InputConstants.isKeyDown(window, down)) {
+			if ((horizontal != -1 && InputConstants.isKeyDown(window, horizontal)) || (Options.useLShift && InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_SHIFT))) {
 				ScrollTracker.scrollRight(scrollSizeKeyboard);
 			}
 			else {
 				ScrollTracker.scrollDown(scrollSizeKeyboard);
 			}
 		}
-		else if (reset != -1 && InputUtil.isKeyPressed(window, reset)) {
+		else if (reset != -1 && InputConstants.isKeyDown(window, reset)) {
 			ScrollTracker.reset();
 		}
     }
 
     public static int getXOffset () {
         MutableDouble convenientInjectionPoint = new MutableDouble(currentXOffset); // Other mods can inject here and manipulate this object for compatibility.
-        return MathHelper.floor(convenientInjectionPoint.doubleValue());
+        return Mth.floor(convenientInjectionPoint.doubleValue());
     }
 
     public static int getYOffset () {
         MutableDouble convenientInjectionPoint = new MutableDouble(currentYOffset); // Other mods can inject here and manipulate this object for compatibility.
-        return MathHelper.floor(convenientInjectionPoint.doubleValue());
+        return Mth.floor(convenientInjectionPoint.doubleValue());
     }
 
 		public static void setInitialYOffset(int offset) {
@@ -149,13 +146,13 @@ public class ScrollTracker {
 				moved = false;
     }
 
-    private static boolean isEqual (List<TooltipComponent> item1, List<TooltipComponent> item2) {
+    private static boolean isEqual (List<ClientTooltipComponent> item1, List<ClientTooltipComponent> item2) {
         if (item1 == null || item2 == null || item1.size() != item2.size()) return false;
         
         for (int i = 0; i < item1.size(); ++i) {
-            if (item1.get(i) instanceof OrderedTextTooltipComponent && !(item2.get(i) instanceof OrderedTextTooltipComponent)) return false;
-            if (item2.get(i) instanceof OrderedTextTooltipComponent && !(item1.get(i) instanceof OrderedTextTooltipComponent)) return false;
-            if (!(item1.get(i) instanceof OrderedTextTooltipComponent) && !(item2.get(i) instanceof OrderedTextTooltipComponent)) continue; // Can't compare non-text.
+            if (item1.get(i) instanceof ClientTextTooltip && !(item2.get(i) instanceof ClientTextTooltip)) return false;
+            if (item2.get(i) instanceof ClientTextTooltip && !(item1.get(i) instanceof ClientTextTooltip)) return false;
+            if (!(item1.get(i) instanceof ClientTextTooltip) && !(item2.get(i) instanceof ClientTextTooltip)) continue; // Can't compare non-text.
             
             OrderedTextTooltipComponentAccessor accessible1 = (OrderedTextTooltipComponentAccessor) item1.get(i);
             OrderedTextTooltipComponentAccessor accessible2 = (OrderedTextTooltipComponentAccessor) item2.get(i);
@@ -178,7 +175,7 @@ public class ScrollTracker {
         currentItem = null; // Using null instead of just clearing the list because not all of Minecraft's Text Lists can be cleared for some reason and that can cause an error.
     }
 
-    public static void setItem (List<TooltipComponent> item) {
+    public static void setItem (List<ClientTooltipComponent> item) {
         if (!isEqual(currentItem, item)) {
             resetScroll();
             currentItem = item;

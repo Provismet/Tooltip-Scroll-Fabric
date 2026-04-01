@@ -1,15 +1,15 @@
 package com.provismet.tooltipscroll;
 
-import net.minecraft.text.CharacterVisitor;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Style;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.util.FormattedCharSink;
 
 /*
  * OrderedText actually uses the "Visitor" design paradigm, which is why trying to read the contents seems extremely obtuse.
  * This class defines a CharacterVisitor to read the contents of the OrderedText back into a String.
  */
 public class OrderedTextReader {
-    private static class Visitor implements CharacterVisitor {
+    private static class Visitor implements FormattedCharSink {
         private int finalIndex = -1;
         private final StringBuilder outputBuilder = new StringBuilder();
 
@@ -28,7 +28,7 @@ public class OrderedTextReader {
         }
     }
 
-    public static String read (OrderedText text) {
+    public static String read (FormattedCharSequence text) {
         Visitor visitor = new Visitor();
 
         /*
