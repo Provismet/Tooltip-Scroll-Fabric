@@ -1,11 +1,11 @@
 package com.provismet.tooltipscroll;
 
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 
@@ -15,25 +15,25 @@ public class TooltipScrollClient implements ClientModInitializer {
 
     public static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath(MODID, "keys"));
 
-    public static KeyMapping moveUp = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+    public static KeyMapping moveUp = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.tooltipscroll.moveUp",
         InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_PAGE_UP,
         CATEGORY
     ));
-    public static KeyMapping moveDown = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+    public static KeyMapping moveDown = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.tooltipscroll.moveDown",
         InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_PAGE_DOWN,
         CATEGORY
     ));
-    public static KeyMapping reset = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+    public static KeyMapping reset = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.tooltipscroll.reset",
         InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_UNKNOWN,
         CATEGORY
     ));
-    public static KeyMapping horizontal = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+    public static KeyMapping horizontal = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.tooltipscroll.horizontal",
         InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_UNKNOWN,

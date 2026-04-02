@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 	id 'me.modmuss50.mod-publish-plugin' version '0.6.3'
 }
@@ -19,21 +19,17 @@ repositories {
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-
-	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
+	api("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-	modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
+	api "com.terraformersmc:modmenu:${project.modmenu_version}"
 
-	modImplementation "com.github.Provismet:lilylib:${project.lilylib_version}"
+	implementation "com.github.Provismet:lilylib:${project.lilylib_version}"
 	include "com.github.Provismet:lilylib:${project.lilylib_version}"
 }
 
@@ -46,7 +42,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
@@ -55,8 +51,8 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
@@ -66,8 +62,8 @@ jar {
 }
 
 publishMods {
-	file = remapJar.archiveFile
-	additionalFiles.from(remapSourcesJar.archiveFile)
+	file = jar.archiveFile
+	additionalFiles.from(sourcesJar.archiveFile)
 	changelog = file("changelog.md").text
 	type = STABLE
 	modLoaders.add("fabric")
