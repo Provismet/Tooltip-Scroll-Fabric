@@ -1,1 +1,1 @@
-Updated to 26.1 Minecraft
+Adjusted metadata to allow the mod to run on 26.1 and 26.2
