@@ -37,42 +37,20 @@ public abstract class GuiGraphicsExtractorMixin {
 		ScrollTracker.setItem(components);
 	}
 
+	// Moves the tooltip once it has been positioned, because start-on-top needs to know where vanilla placed it.
 	@Inject(
         method = "tooltip",
-        at = @At(value = "INVOKE", target = "Lorg/joml/Matrix3x2fStack;pushMatrix()Lorg/joml/Matrix3x2fStack;")
+        at = @At(value = "INVOKE", target = "Lorg/joml/Matrix3x2fStack;pushMatrix()Lorg/joml/Matrix3x2fStack;", shift = At.Shift.AFTER)
 	)
 	private void editXY (Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo info, @Local(ordinal = 6) LocalIntRef effectiveX, @Local(ordinal = 7) LocalIntRef effectiveY) {
-        if (Options.matrixMode) return;
+        ScrollTracker.alignToTop(effectiveY.get());
+
+        if (Options.matrixMode) {
+            this.pose.translate(ScrollTracker.getXOffset(), ScrollTracker.getYOffset()); // Reverted by vanilla's own popMatrix().
+            return;
+        }
 
 		effectiveX.set(effectiveX.get() + ScrollTracker.getXOffset());
 		effectiveY.set(effectiveY.get() + ScrollTracker.getYOffset());
-
-        if (Options.startOnTop && !ScrollTracker.hasMoved()) {
-            int originalY = effectiveY.get();
-            if (effectiveY.get() < 4) {
-                effectiveY.set(4);
-                ScrollTracker.setInitialYOffset(4 - originalY);
-            }
-        }
 	}
-
-    @Inject(
-        method = "tooltip",
-        at = @At("HEAD")
-    )
-    private void headMatrices(Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, Identifier texture, CallbackInfo info) {
-        if (!Options.matrixMode) return;
-
-        this.pose.pushMatrix();
-        this.pose.translate(ScrollTracker.getXOffset(), ScrollTracker.getYOffset());
-    }
-
-    @Inject(
-        method = "tooltip",
-        at = @At("TAIL")
-    )
-    private void tailMatrices (Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, Identifier texture, CallbackInfo info) {
-        if (!Options.matrixMode) return;
-        this.pose.popMatrix();
-    }
 }
