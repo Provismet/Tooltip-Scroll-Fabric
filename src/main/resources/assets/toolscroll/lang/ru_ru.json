@@ -1,0 +1,36 @@
+{
+    "key.category.tooltipscroll.keys": "Tooltip Scroll",
+
+    "title.tooltipscroll.config": "Tooltip Scroll",
+
+    "category.tooltipscroll.general": "Основное",
+
+    "entry.tooltipscroll.canscroll": "Включить ScrollWheel",
+    "entry.tooltipscroll.usewasd": "Включить WASD",
+    "entry.tooltipscroll.startontop": "Начинать сверху",
+    "entry.tooltipscroll.resetonunlock": "Сбрасывать позицию ",
+    "entry.tooltipscroll.uselshift": "Использовать левый Shift",
+    "entry.tooltipscroll.invertxscroll": "Инверсия по горизонтали",
+    "entry.tooltipscroll.invertyscroll": "Инверсия по вертикали",
+    "entry.tooltipscroll.scrollspeed": "Скорость прокрутки мыши",
+    "entry.tooltipscroll.scrollspeedkeys": "Скорость прокрутки клавиш",
+    "entry.tooltipscroll.smoothness": "Плавность прокрутки",
+    "entry.tooltipscroll.matrix_compatibility": "Совместимость с Matrix",
+
+    "entrytooltip.tooltipscroll.canscroll": "Позволяет прокручивать описание предмета колёсиком мыши.",
+    "entrytooltip.tooltipscroll.usewasd": "Позволяет перемещать описание предмета клавишами WASD.",
+    "entrytooltip.tooltipscroll.startontop": "Если описание не влезает в экран, при наведении оно всегда будет открываться с самого верха.",
+    "entrytooltip.tooltipscroll.resetonunlock": "Сбрасывает позицию прокрутки описания, когда вы убираете с него курсор.",
+    "entrytooltip.tooltipscroll.uselshift": "Зажмите левый Shift для прокрутки по горизонтали. (Назначенная клавиша не влияет)."
+    "entrytooltip.tooltipscroll.invertxscroll": "Инвертирует движение описания по горизонтали при прокрутке.",
+    "entrytooltip.tooltipscroll.invertyscroll": "Инвертирует движение описания по вертикали при прокрутке.",
+    "entrytooltip.tooltipscroll.scrollspeed": "Скорость движения описания при прокрутке колесиком мыши.",
+    "entrytooltip.tooltipscroll.scrollspeedkeys": "Скорость движения описания при управлении с клавиатуры.",
+    "entrytooltip.tooltipscroll.smoothness": "Как быстро описание плавно сдвигается с места.\nДиапазон: [0.05 - 1], где 1 - мгновенно.",
+    "entrytooltip.tooltipscroll.matrix_compatibility": "Изменяет алгоритм перемещения описания.\nМожет улучшить совместимость с некоторыми другими модами.",
+
+    "key.tooltipscroll.moveUp": "Переместить описание вверх",
+    "key.tooltipscroll.moveDown": "Переместить описание вниз",
+    "key.tooltipscroll.horizontal": "Движение по горизонтали",
+    "key.tooltipscroll.reset": "Сбросить позицию описания"
+}
