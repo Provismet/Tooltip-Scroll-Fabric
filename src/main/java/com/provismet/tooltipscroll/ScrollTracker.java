@@ -20,6 +20,7 @@ public class ScrollTracker {
     private static double trueXOffset = 0;
     private static double trueYOffset = 0;
 
+		// Start on top is skipped once the user has moved the tooltip themselves.
 		private static boolean moved = false;
     
     // save the currently selected item, the scroll offset will reset if the user hovers over a different item
@@ -27,6 +28,7 @@ public class ScrollTracker {
 
     private static long unlockTime = System.currentTimeMillis();
     private static final long RELOCK_AT = 100;
+		private static final int TOP_MARGIN = 4;
     
     public static int scrollSize = 10;
     public static int scrollSizeKeyboard = 5;
@@ -93,48 +95,51 @@ public class ScrollTracker {
         return Mth.floor(convenientInjectionPoint.doubleValue());
     }
 
-		public static void setInitialYOffset(int offset) {
-				trueYOffset += offset;
-				currentYOffset = trueYOffset;
+		// Takes the y position that the tooltip would have without any offset from this mod.
+		public static void alignToTop (int unmodifiedY) {
+				if (!Options.startOnTop || moved) return;
+
+				trueYOffset = Math.max(0, TOP_MARGIN - unmodifiedY);
+				currentYOffset = trueYOffset; // Snapped instead of smoothed, it should already be aligned when it appears.
 		}
 
     public static void scrollUp () {
         scrollUp(scrollSize);
-				moved = true;
     }
 
     public static void scrollUp (int amount) {
-        if (!isLocked()) trueYOffset -= amount;
+        if (isLocked()) return;
+        trueYOffset -= amount;
 				moved = true;
     }
 
     public static void scrollDown () {
         scrollDown(scrollSize);
-				moved = true;
     }
 
     public static void scrollDown (int amount) {
-        if (!isLocked()) trueYOffset += amount;
+        if (isLocked()) return;
+        trueYOffset += amount;
 				moved = true;
     }
 
     public static void scrollLeft () {
         scrollLeft(scrollSize);
-				moved = true;
     }
 
     public static void scrollLeft (int amount) {
-        if (!isLocked()) trueXOffset -= amount;
+        if (isLocked()) return;
+        trueXOffset -= amount;
 				moved = true;
     } 
 
     public static void scrollRight () {
         scrollRight(scrollSize);
-				moved = true;
     }
 
     public static void scrollRight (int amount) {
-        if (!isLocked()) trueXOffset += amount;
+        if (isLocked()) return;
+        trueXOffset += amount;
 				moved = true;
     }
 
@@ -188,8 +193,4 @@ public class ScrollTracker {
         }
         unlockTime = System.currentTimeMillis();
     }
-
-		public static boolean hasMoved() {
-				return moved;
-		}
 }
