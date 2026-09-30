@@ -1,13 +1,10 @@
 package com.provismet.tooltipscroll.mixin;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.platform.Window;
 import com.provismet.tooltipscroll.Options;
 import com.provismet.tooltipscroll.ScrollTracker;
 import com.provismet.tooltipscroll.TooltipScrollClient;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
-import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,10 +19,8 @@ public class MouseMixin {
     private void trackWheel (long window, double horizontal, double vertical, CallbackInfo info) {
         if (!Options.canScroll) return;
 
-        Window mcWindow = Minecraft.getInstance().getWindow();
         int horizontalMove = ((KeyBindAccessor)TooltipScrollClient.horizontal).getKey().getValue();
-
-        if ((horizontalMove != -1 && InputConstants.isKeyDown(mcWindow, horizontalMove)) || (Options.useLShift && InputConstants.isKeyDown(mcWindow, GLFW.GLFW_KEY_LEFT_SHIFT))) {
+        if ((horizontalMove != -1 && InputConstants.isKeyDown(horizontalMove)) || (Options.useLShift && InputConstants.isKeyDown(InputConstants.KEY_LSHIFT))) {
             scrollX(vertical);
         }
         else {

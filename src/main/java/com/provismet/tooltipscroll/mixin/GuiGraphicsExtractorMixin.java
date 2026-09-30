@@ -9,8 +9,8 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2fStack;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,17 +31,17 @@ public abstract class GuiGraphicsExtractorMixin {
 		method = "tooltip",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;positionTooltip(IIIIII)Lorg/joml/Vector2ic;")
 	)
-	public void applyTracker (Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo ci) {
+	public void applyTracker (Font font, List<ClientTooltipComponent> lines, int xo, int yo, ClientTooltipPositioner positioner, @org.jspecify.annotations.Nullable Identifier style, boolean extraSpaceAfterFirstLine, CallbackInfo ci) {
 		ScrollTracker.unlock();
 		ScrollTracker.update();
-		ScrollTracker.setItem(components);
+		ScrollTracker.setItem(lines);
 	}
 
 	@Inject(
         method = "tooltip",
         at = @At(value = "INVOKE", target = "Lorg/joml/Matrix3x2fStack;pushMatrix()Lorg/joml/Matrix3x2fStack;")
 	)
-	private void editXY (Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, @Nullable Identifier texture, CallbackInfo info, @Local(ordinal = 6) LocalIntRef effectiveX, @Local(ordinal = 7) LocalIntRef effectiveY) {
+	private void editXY (Font font, List<ClientTooltipComponent> lines, int xo, int yo, ClientTooltipPositioner positioner, @org.jspecify.annotations.Nullable Identifier style, boolean extraSpaceAfterFirstLine, CallbackInfo ci, @Local(ordinal = 6) LocalIntRef effectiveX, @Local(ordinal = 7) LocalIntRef effectiveY) {
         if (Options.matrixMode) return;
 
 		effectiveX.set(effectiveX.get() + ScrollTracker.getXOffset());
@@ -60,7 +60,7 @@ public abstract class GuiGraphicsExtractorMixin {
         method = "tooltip",
         at = @At("HEAD")
     )
-    private void headMatrices(Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, Identifier texture, CallbackInfo info) {
+    private void headMatrices(Font font, List<ClientTooltipComponent> lines, int xo, int yo, ClientTooltipPositioner positioner, @Nullable Identifier style, boolean extraSpaceAfterFirstLine, CallbackInfo ci) {
         if (!Options.matrixMode) return;
 
         this.pose.pushMatrix();
@@ -71,7 +71,7 @@ public abstract class GuiGraphicsExtractorMixin {
         method = "tooltip",
         at = @At("TAIL")
     )
-    private void tailMatrices (Font textRenderer, List<ClientTooltipComponent> components, int x, int y, ClientTooltipPositioner positioner, Identifier texture, CallbackInfo info) {
+    private void tailMatrices (Font font, List<ClientTooltipComponent> lines, int xo, int yo, ClientTooltipPositioner positioner, @Nullable Identifier style, boolean extraSpaceAfterFirstLine, CallbackInfo ci) {
         if (!Options.matrixMode) return;
         this.pose.popMatrix();
     }

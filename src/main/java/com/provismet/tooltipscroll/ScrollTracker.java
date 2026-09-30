@@ -1,18 +1,18 @@
 package com.provismet.tooltipscroll;
 
 import java.util.List;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTextTooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.util.Mth;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.platform.Window;
 import com.provismet.tooltipscroll.mixin.KeyBindAccessor;
 import com.provismet.tooltipscroll.mixin.OrderedTextTooltipComponentAccessor;
 
 public class ScrollTracker {
+    private static final int UNKNOWN = InputConstants.UNKNOWN.getValue();
+
     // render functions are called every frame, so the offset needs to be saved somewhere
     private static double currentXOffset = 0;
     private static double currentYOffset = 0;
@@ -36,49 +36,46 @@ public class ScrollTracker {
         currentXOffset += (trueXOffset - currentXOffset) * smoothnessModifier;
         currentYOffset += (trueYOffset - currentYOffset) * smoothnessModifier;
 
-        Window window = Minecraft.getInstance().getWindow();
-
-		// An unbound key has a code of -1.
 		int up = ((KeyBindAccessor)TooltipScrollClient.moveUp).getKey().getValue();
 		int down = ((KeyBindAccessor)TooltipScrollClient.moveDown).getKey().getValue();
 		int horizontal = ((KeyBindAccessor)TooltipScrollClient.horizontal).getKey().getValue();
 		int reset = ((KeyBindAccessor)TooltipScrollClient.reset).getKey().getValue();
 
 		if (Options.useWASD) {
-			if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_W)) {
+			if (InputConstants.isKeyDown(InputConstants.KEY_W)) {
 				ScrollTracker.scrollUp(scrollSizeKeyboard);
 			}
-			else if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_S)) {
+			else if (InputConstants.isKeyDown(InputConstants.KEY_S)) {
 				ScrollTracker.scrollDown(scrollSizeKeyboard);
 			}
 
-			if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_A)) {
+			if (InputConstants.isKeyDown(InputConstants.KEY_A)) {
 				ScrollTracker.scrollLeft(scrollSizeKeyboard);
 			}
-			else if (InputConstants.isKeyDown(window, GLFW.GLFW_KEY_D)) {
+			else if (InputConstants.isKeyDown(InputConstants.KEY_D)) {
 				ScrollTracker.scrollRight(scrollSizeKeyboard);
 			}
 		}
 
-		// Check for -1 codes first.
+		// Check for "unknown" codes first.
 		// They don't cause Exceptions, but they do create a messy block of errors on the render thread when logging.
-		if (up != -1 && InputConstants.isKeyDown(window, up)) {
-			if ((horizontal != -1 && InputConstants.isKeyDown(window, horizontal)) || (Options.useLShift && InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_SHIFT))) {
+		if (up != UNKNOWN && InputConstants.isKeyDown(up)) {
+			if ((horizontal != UNKNOWN && InputConstants.isKeyDown(horizontal)) || (Options.useLShift && InputConstants.isKeyDown(InputConstants.KEY_LSHIFT))) {
 				ScrollTracker.scrollLeft(scrollSizeKeyboard);
 			}
 			else {
 				ScrollTracker.scrollUp(scrollSizeKeyboard);
 			}
 		}
-		else if (down != -1 && InputConstants.isKeyDown(window, down)) {
-			if ((horizontal != -1 && InputConstants.isKeyDown(window, horizontal)) || (Options.useLShift && InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_SHIFT))) {
+		else if (down != UNKNOWN && InputConstants.isKeyDown(down)) {
+			if ((horizontal != UNKNOWN && InputConstants.isKeyDown(horizontal)) || (Options.useLShift && InputConstants.isKeyDown(InputConstants.KEY_LSHIFT))) {
 				ScrollTracker.scrollRight(scrollSizeKeyboard);
 			}
 			else {
 				ScrollTracker.scrollDown(scrollSizeKeyboard);
 			}
 		}
-		else if (reset != -1 && InputConstants.isKeyDown(window, reset)) {
+		else if (reset != UNKNOWN && InputConstants.isKeyDown(reset)) {
 			ScrollTracker.reset();
 		}
     }
@@ -100,42 +97,42 @@ public class ScrollTracker {
 
     public static void scrollUp () {
         scrollUp(scrollSize);
-				moved = true;
+        moved = true;
     }
 
     public static void scrollUp (int amount) {
         if (!isLocked()) trueYOffset -= amount;
-				moved = true;
+        moved = true;
     }
 
     public static void scrollDown () {
         scrollDown(scrollSize);
-				moved = true;
+        moved = true;
     }
 
     public static void scrollDown (int amount) {
         if (!isLocked()) trueYOffset += amount;
-				moved = true;
+        moved = true;
     }
 
     public static void scrollLeft () {
         scrollLeft(scrollSize);
-				moved = true;
+        moved = true;
     }
 
     public static void scrollLeft (int amount) {
         if (!isLocked()) trueXOffset -= amount;
-				moved = true;
+        moved = true;
     } 
 
     public static void scrollRight () {
         scrollRight(scrollSize);
-				moved = true;
+        moved = true;
     }
 
     public static void scrollRight (int amount) {
         if (!isLocked()) trueXOffset += amount;
-				moved = true;
+        moved = true;
     }
 
     private static void resetScroll () {
@@ -143,7 +140,7 @@ public class ScrollTracker {
         currentYOffset = 0;
         trueXOffset = 0;
         trueYOffset = 0;
-				moved = false;
+        moved = false;
     }
 
     private static boolean isEqual (List<ClientTooltipComponent> item1, List<ClientTooltipComponent> item2) {

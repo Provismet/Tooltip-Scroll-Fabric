@@ -1,7 +1,6 @@
 package com.provismet.tooltipscroll;
 
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -17,26 +16,26 @@ public class TooltipScrollClient implements ClientModInitializer {
 
     public static KeyMapping moveUp = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.tooltipscroll.moveUp",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_PAGE_UP,
+        InputConstants.Type.KEYBOARD,
+        InputConstants.KEY_PAGEUP,
         CATEGORY
     ));
     public static KeyMapping moveDown = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.tooltipscroll.moveDown",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_PAGE_DOWN,
+        InputConstants.Type.KEYBOARD,
+        InputConstants.KEY_PAGEDOWN,
         CATEGORY
     ));
     public static KeyMapping reset = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.tooltipscroll.reset",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_UNKNOWN,
+        InputConstants.Type.KEYBOARD,
+        InputConstants.UNKNOWN.getValue(),
         CATEGORY
     ));
     public static KeyMapping horizontal = KeyMappingHelper.registerKeyMapping(new KeyMapping(
         "key.tooltipscroll.horizontal",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_UNKNOWN,
+        InputConstants.Type.KEYBOARD,
+        InputConstants.UNKNOWN.getValue(),
         CATEGORY
     ));
 
