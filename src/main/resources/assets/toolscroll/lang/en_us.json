@@ -27,7 +27,7 @@
     "entrytooltip.tooltipscroll.scrollspeed": "Tooltip speed when scrolling with the mouse.",
     "entrytooltip.tooltipscroll.scrollspeedkeys": "Tooltip speed when moving it with the keyboard.",
     "entrytooltip.tooltipscroll.smoothness": "How fast the tooltip should slide between positions.\nRange of [0.05 - 1], where 1 is instant.",
-    "entrytooltip.tooltipscroll.matrix_compatibility": "Changes how Tooltip Scroll handles tooltips moving.\nMay improve compatibility with some mods.\nBreaks the start-on-top feature.",
+    "entrytooltip.tooltipscroll.matrix_compatibility": "Changes how Tooltip Scroll handles tooltips moving.\nMay improve compatibility with some mods.",
 
     "key.tooltipscroll.moveUp": "Move Tooltip Up",
     "key.tooltipscroll.moveDown": "Move Tooltip Down",
