@@ -21,7 +21,7 @@
     "entrytooltip.tooltipscroll.usewasd": "Позволяет перемещать описание предмета клавишами WASD.",
     "entrytooltip.tooltipscroll.startontop": "Если описание не влезает в экран, при наведении оно всегда будет открываться с самого верха.",
     "entrytooltip.tooltipscroll.resetonunlock": "Сбрасывает позицию прокрутки описания, когда вы убираете с него курсор.",
-    "entrytooltip.tooltipscroll.uselshift": "Зажмите левый Shift для прокрутки по горизонтали. (Назначенная клавиша не влияет)."
+    "entrytooltip.tooltipscroll.uselshift": "Зажмите левый Shift для прокрутки по горизонтали. (Назначенная клавиша не влияет).",
     "entrytooltip.tooltipscroll.invertxscroll": "Инвертирует движение описания по горизонтали при прокрутке.",
     "entrytooltip.tooltipscroll.invertyscroll": "Инвертирует движение описания по вертикали при прокрутке.",
     "entrytooltip.tooltipscroll.scrollspeed": "Скорость движения описания при прокрутке колесиком мыши.",
